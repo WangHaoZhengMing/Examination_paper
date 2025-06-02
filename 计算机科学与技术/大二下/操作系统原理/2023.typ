@@ -298,24 +298,24 @@
 
       // Draw connections
       // Root to A
-      line("root", (0, y1 + 0.6))
+      line("root", (0, y1 + 0.6),mark:(end:">"))
 
       // A to its children
-      line((-0.3, y1), (-2.5, y2 + 0.6))
-      line((0, y1), (0, y2 + 0.6))
-      line((0.3, y1), (2.5, y2 + 0.6))
+      line((-0.3, y1), (-2.5, y2 + 0.6),mark:(end:">"))
+      line((0, y1), (0, y2 + 0.6),mark:(end:">"))
+      line((0.3, y1), (2.5, y2 + 0.6),mark:(end:">"))
 
       // Level 2 to Level 3
-      line((-2.5, y2), (-2.5, y3 + 0.6))
-      line((0, y2), "E")
-      line((2.5, y2), (2.5, y3 + 0.6))
+      line((-2.5, y2), (-2.5, y3 + 0.6),mark:(end:">"))
+      line((0, y2), "E",mark:(end:">"))
+      line((2.5, y2), (2.5, y3 + 0.6),mark:(end:">"))
 
       // Cross connections (dashed)
-      line((-1.5, y3 + 0.3), "E", thickness: 1pt, dash: "dashed")
-      line((1.5, y3 + 0.3), "E", thickness: 1pt, dash: "dashed")
+      line((-1.5, y3 + 0.3), "E", thickness: 1pt, dash: "dashed",mark:(end:">"))
+      line((1.5, y3 + 0.3), "E", thickness: 1pt, dash: "dashed",mark:(end:">"))
     })
   ]
-
+ 
 7. 桌上有个能盛得下1个水果的空盘子,爸爸不停地向盘中放苹果,妈妈不停地向盘中放桔子,儿子不停地从盘中取出桔子享用,女儿不停地从盘中取出苹果享用。试用信号量实现爸爸、妈妈、儿子和女儿循环进程之间的同步。(10分)
 
 #pagebreak()
