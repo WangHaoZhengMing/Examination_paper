@@ -71,10 +71,8 @@
     columns: 2,
     gutter: 0.5em,
     column-gutter: 1fr,
-    [A. 无上邻空闲区, 也无下邻空闲区],
-    [B. 有上邻空闲区, 但无下邻空闲区],
-    [C. 有下邻空闲区, 但无上邻空闲区],
-    [D. 有上邻空闲区, 也有下邻空闲区],
+    [A. 无上邻空闲区, 也无下邻空闲区], [B. 有上邻空闲区, 但无下邻空闲区],
+    [C. 有下邻空闲区, 但无上邻空闲区], [D. 有上邻空闲区, 也有下邻空闲区],
   )
 + 一种既有利于短作业又兼顾长期作业的作业调度方式是( )。
   #grid(
@@ -118,11 +116,11 @@
     gutter: 1fr,
     [A. 寻道时间], [B. 旋转延迟时间], [C. 传输时间], [D. 寻找磁盘的时间],
   )
-+ UNIX 文件系统中的文件索引节点包含13个地址项, 其中i.addr(0)~i.addr(9)是直接地址, i.addr(10)是一级间接索引, i.addr(11)是二级间接索引, i.addr(12)是三级间接索引。假设盘块大小为4K, 那么各个索引块也采用i.addr(0)~i.addr(10)这11个地址项能够管理的最大文件是( )。
++ UNIX 文件系统中的文件索引节点包含13个地址项, 其中`i.addr(0)~i.addr(9)`是直接地址, `i.addr(10)`是一级间接索引, `i.addr(11)`是二级间接索引, `i.addr(12)`是三级间接索引。假设盘块大小为4K, 那么各个索引块也采用`i.addr(0)~i.addr(10)`这11个地址项能够管理的最大文件是( )。
   #grid(
     columns: 4,
     gutter: 1fr,
-    [A. 40K], [B. 4M], [C. 40K+4M], [D. 40K+4M+4G],
+    [A. 40K], [B. 4M], [C. 40K+ 4M], [D. 40K+4M+4G],
   )
 + FAT16 采用16位来记录一个盘块地址, 假设一个盘块大小为4K, 那么能够管理的磁盘分区容量最大为( )。
   #grid(
@@ -137,15 +135,14 @@
 + 有两个程序A、B, 它们使用同一个设备进行 I/O 操作, 并按 A、B 的优先次序执行, 每个程序的计算和I/O 操作时间如表1所示。假设调度时间可忽略不计, 请计算多道环境下它们的总运行时间是 #uline(width: 4em) ms。
   #figure(
     table(
-      columns: (auto, 1fr, 1fr, 1fr),
+      columns: (auto,) * 3,
       align: center,
       inset: 5pt,
       stroke: 0.5pt,
-      [], [*程序*], [*A*], [*B*],
-      [*操作*], [], [], [],
-      [], [*计算*], [30], [60],
-      [], [*I/O*], [40], [30],
-      [], [*计算*], [10], [10],
+      [*程序*\ *操作*], [*A*], [*B*],
+      [*计算*], [30], [60],
+      [*I/O*], [40], [30],
+      [*计算*], [10], [10],
     ),
     caption: [表1 程序运行时间表 (单位ms)],
   )
@@ -173,6 +170,7 @@
   #grid(
     columns: 2,
     gutter: 1fr,
+    align: center+horizon,
     [
       #figure(
         table(
@@ -210,7 +208,7 @@
       )
     ],
   )
- #v(100%)
+  #v(100%)
 
 + 系统中有(A, B, C, D)四种资源和五个进程。在银行家算法中, 某时刻出现下述资源分配情况时:
   #figure(
@@ -305,7 +303,6 @@
   #v(2em)
 
 + 在MS-DOS 中有一文件 A, A 依次占用 3, 6, 8, 10, 5 五个盘块。请画出 MS-DOS 文件系统中, 文件 A 在各盘块间的链接情况及 FAT 的情况。(5分)
-  _答题空间 (For drawing)_
   #v(3em)
 
 
@@ -343,48 +340,138 @@
     stroke: 0.5pt,
     align: center,
     [*1*], [*2*], [*3*], [*4*], [*5*], [*6*], [*7*], [*8*], [*9*], [*10*], [*11*], [*12*], [*13*], [*14*], [*15*],
-    [C], [A], [D], [D], [C], [D], [D], [D], [B], [C], [B], [C], [A], [D], [B],
+    [B], [A], [D], [D], [C], [D], [D], [D], [B], [C], [B], [C], [A], [C], [B],
   )]
 
 #answer_block(
   "1",
+  [B],
+)[本题考查页式存储管理的地址结构。页式存储管理中，逻辑地址由页号和页内偏移量两部分组成]
+
+#answer_block(
+  "2",
+  [A],
+)[本题考查磁盘空间管理方法。成组链接法是一种用于管理磁盘空闲块的高效方法，主要用于分配和回收磁盘空间。其他选项如驱动调度（如SCAN、CSCAN）、目录查找（如哈希、B树）、页面调度（如FIFO、LRU）是不同的操作系统功能。]
+
+#answer_block(
+  "3",
+  [D],
+)[本题考查通道的概念。通道是独立于CPU的专门负责数据输入输出传输控制的I/O专用处理器，它可以控制外部设备与内存之间的数据交换，从而解放CPU。]
+
+#answer_block(
+  "4",
+  [D],
+)[本题考查并发进程间的关系。并发进程在执行过程中可能会共享资源或需要合作完成任务，因此它们之间可能存在因共享资源而产生的互斥关系，或因合作而产生的同步关系。它们不一定总是互斥或同步，也可能在某些情况下彼此独立。]
+
+#answer_block(
+  "5",
   [C],
-)[本题考查页式存储管理的地址结构。页式存储管理中，逻辑地址由页号和页内偏移量两部分组成，是一种二维地址结构。选项A、B、D描述不准确。]
+)[本题考查请求分页管理中的页表项。页表中的状态位（有效位/驻留位）用于指示该页当前是否已经调入内存。修改位指示页面是否被修改，访问位指示页面是否被访问，用于页面置换算法。]
 
-#answer_block("2", [A])[本题考查磁盘空间管理方法。成组链接法是一种用于管理磁盘空闲块的高效方法，主要用于分配和回收磁盘空间。其他选项如驱动调度（如SCAN、CSCAN）、目录查找（如哈希、B树）、页面调度（如FIFO、LRU）是不同的操作系统功能。]
+#answer_block(
+  "6",
+  [D],
+)[本题考查可变分区存储管理中的空闲区合并。当回收的作业区其上下都有相邻的空闲区时，这三个区（上邻空闲区、回收区、下邻空闲区）会合并成一个大的空闲区，使得总的空闲区数目减2后加1，即净减1。如果只有上邻或下邻，则数目不变。如果均无，则数目加1。]
 
-#answer_block("3", [D])[本题考查通道的概念。通道是独立于CPU的专门负责数据输入输出传输控制的I/O专用处理器，它可以控制外部设备与内存之间的数据交换，从而解放CPU。]
+#answer_block(
+  "7",
+  [D],
+)[本题考查作业调度算法的特性。多级反馈队列调度算法通过设置多个不同优先级的队列，并结合时间片轮转，既能让短作业在较高优先级队列中快速完成，也能让长作业在较低优先级队列中得到服务，避免饿死，因此兼顾了短作业和长作业。]
 
-#answer_block("4", [D])[本题考查并发进程间的关系。并发进程在执行过程中可能会共享资源或需要合作完成任务，因此它们之间可能存在因共享资源而产生的互斥关系，或因合作而产生的同步关系。它们不一定总是互斥或同步，也可能在某些情况下彼此独立。]
+#answer_block(
+  "8",
+  [D],
+)[本题考查进程状态转换。进程从运行状态进入就绪状态，通常是因为分配给该进程的时间片已经用完，CPU被调度程序分配给其他进程，而该进程并未阻塞，仍具备运行条件。等待某一事件导致进入阻塞态；等待事件发生导致从阻塞态进入就绪态；被选中占有处理机导致从就绪态进入运行态。]
 
-#answer_block("5", [C])[本题考查请求分页管理中的页表项。页表中的状态位（有效位/驻留位）用于指示该页当前是否已经调入内存。修改位指示页面是否被修改，访问位指示页面是否被访问，用于页面置换算法。]
+#answer_block(
+  "9",
+  [B],
+)[本题考查文件系统的目录管理功能。目录管理的核心功能是组织和管理文件，提供文件名到文件物理存储位置的映射，即实现文件的“按名存取”。]
 
-#answer_block("6", [D])[本题考查可变分区存储管理中的空闲区合并。当回收的作业区其上下都有相邻的空闲区时，这三个区（上邻空闲区、回收区、下邻空闲区）会合并成一个大的空闲区，使得总的空闲区数目减2后加1，即净减1。如果只有上邻或下邻，则数目不变。如果均无，则数目加1。]
+#answer_block(
+  "10",
+  [C],
+)[本题考查重定位的方式。静态重定位是在作业装入内存时，由装入程序将指令和数据中的逻辑地址转换为物理地址，且装入后不能再移动。编译和链接过程处理的是符号地址和相对地址。]
 
-#answer_block("7", [D])[本题考查作业调度算法的特性。多级反馈队列调度算法通过设置多个不同优先级的队列，并结合时间片轮转，既能让短作业在较高优先级队列中快速完成，也能让长作业在较低优先级队列中得到服务，避免饿死，因此兼顾了短作业和长作业。]
+#answer_block(
+  "11",
+  [B],
+)[本题考查作业调度中的时间度量。周转时间是指从作业提交给系统开始，到作业完成为止的全部时间，包括等待调度时间、在就绪队列中等待CPU的时间、CPU执行时间以及I/O操作时间。]
 
-#answer_block("8", [D])[本题考查进程状态转换。进程从运行状态进入就绪状态，通常是因为分配给该进程的时间片已经用完，CPU被调度程序分配给其他进程，而该进程并未阻塞，仍具备运行条件。等待某一事件导致进入阻塞态；等待事件发生导致从阻塞态进入就绪态；被选中占有处理机导致从就绪态进入运行态。]
+#answer_block(
+  "12",
+  [C],
+)[本题考查系统性能问题。抖动（Thrashing）是指在请求分页系统中，由于分配给进程的物理页面太少，导致进程运行频繁发生缺页中断，大部分时间都用于页面置换，而不是有效执行指令，使得系统效率急剧下降的现象。]
 
-#answer_block("9", [B])[本题考查文件系统的目录管理功能。目录管理的核心功能是组织和管理文件，提供文件名到文件物理存储位置的映射，即实现文件的“按名存取”。]
+#answer_block(
+  "13",
+  [A],
+)[本题考查磁盘调度的目标。磁盘I/O操作的时间主要由寻道时间、旋转延迟时间和数据传输时间组成。其中寻道时间是磁头移动到目标磁道所需的时间，通常是占比最大的部分，因此磁盘调度的主要目标是减少平均寻道时间。]
 
-#answer_block("10", [C])[本题考查重定位的方式。静态重定位是在作业装入内存时，由装入程序将指令和数据中的逻辑地址转换为物理地址，且装入后不能再移动。编译和链接过程处理的是符号地址和相对地址。]
-
-#answer_block("11", [B])[本题考查作业调度中的时间度量。周转时间是指从作业提交给系统开始，到作业完成为止的全部时间，包括等待调度时间、在就绪队列中等待CPU的时间、CPU执行时间以及I/O操作时间。]
-
-#answer_block("12", [C])[本题考查系统性能问题。抖动（Thrashing）是指在请求分页系统中，由于分配给进程的物理页面太少，导致进程运行频繁发生缺页中断，大部分时间都用于页面置换，而不是有效执行指令，使得系统效率急剧下降的现象。]
-
-#answer_block("13", [A])[本题考查磁盘调度的目标。磁盘I/O操作的时间主要由寻道时间、旋转延迟时间和数据传输时间组成。其中寻道时间是磁头移动到目标磁道所需的时间，通常是占比最大的部分，因此磁盘调度的主要目标是减少平均寻道时间。]
-
-#answer_block("14", [D])[
+#answer_block("14", [C])[
   本题考查UNIX文件系统的文件大小计算。
   直接地址：i.addr(0)\~i.addr(9) 共10项，每项指向一个盘块，大小为 $10 times 4K = 40K$。
   一级间接索引：i.addr(10) 指向一个索引块，该索引块大小为4K。每个地址项假设为4字节，则一个索引块可存放 $(4 times 1024) / 4 = 1024$ 个盘块地址。所以一级间接索引能管理 $1024 times 4K = 4M$。
   二级间接索引：i.addr(11) 指向一个二级索引块，该块又指向1024个一级索引块，每个一级索引块再指向1024个数据块。所以二级间接索引能管理 $1024 times 1024 times 4K = 4G$。
   三级间接索引：i.addr(12) 同理能管理 $1024 times 4G = 4T$。
   题目给的答案D是 $40K+4M+4G$，这意味着它考虑了i.addr(0)到i.addr(11)这12项 (10个直接，1个一级间接，1个二级间接)。
+  #figure(caption: [UNIX文件系统索引节点结构])[#set text(size: 5pt)
+    #canvas({
+      import draw: *
+      scale(0.6)
+
+      // 设置画布
+      set-style(content: (padding: 0.1))
+
+      // 画索引节点
+      rect((0, 0), (3, 8), stroke: 2pt)
+      content((1.5, 7.5), [*索引节点 (inode)*])
+
+      // 直接地址项 i.addr(0) ~ i.addr(9)
+      for i in range(10) {
+        let y = 6.5 - i * 0.6
+        rect((0.2, y - 0.25), (2.8, y + 0.25), stroke: 1pt)
+        content((1.5, y), [i.addr(#i)])
+
+        // 直接指向数据块
+        rect((4, y - 0.25), (6, y + 0.25), stroke: 1pt)
+        content((5, y), [数据块])
+
+        // 连接线
+        line((2.8, y), (4, y), mark: (end: ">"))
+      }
+
+      // 一级间接索引 i.addr(10)
+      let y10 = 6.5 - 10 * 0.6
+      rect((0.2, y10 - 0.25), (2.8, y10 + 0.25), stroke: 1pt)
+      content((1.5, y10), [i.addr(10)])
+      content((1.5, y10 - 0.9), [一级间接])
+
+      // 一级间接索引块
+      rect((4, y10 - 1.8), (6, y10 + 0.2), stroke: 1pt)
+      content((5, y10 - 0.1), [索引块])
+      content((5, y10 - 0.5), [1024个])
+      content((5, y10 - 0.9), [地址项])
+      content((5, y10 - 1.3), [每项4字节])
+
+      line((2.8, y10), (4, y10 - 0.8), mark: (end: ">"))
+
+      // 从一级间接索引块指向数据块
+      for i in range(3) {
+        let x = 7 + i * 1.5
+        rect((x, y10 - 0.75), (x + 1, y10 - 0.25), stroke: 1pt)
+        content((x + 0.5, y10 - 0.5), [数据块])
+        line((6, y10 - 0.8), (x, y10 - 0.5), mark: (end: ">"))
+      }
+      content((8.5, y10 - 1.2), [... 共1024个数据块])
+    })
+  ]
 ]
 
-#answer_block("15", [B])[本题考查FAT16文件系统的容量计算。FAT16使用16位记录盘块地址，因此最多可以表示 $2^16 = 65536$ 个盘块。每个盘块大小为4K，所以最大分区容量为 $2^16 times 4K = 65536 times 4 times 1024 #text(" Bytes") = 268435456 #text(" Bytes") = 256M$。]
+#answer_block(
+  "15",
+  [B],
+)[本题考查FAT16文件系统的容量计算。FAT16使用16位记录盘块地址，因此最多可以表示 $2^16 = 65536$ 个盘块。每个盘块大小为4K，所以最大分区容量为 $2^16 times 4K = 65536 times 4 times 1024 #text(" Bytes") = 268435456 #text(" Bytes") = 256M$。原答案是2G，可能误解了。]
 
 == 填空题（答案要求准确）
 
@@ -408,26 +495,35 @@
   ]
   v(-5pt)
 }
-#fill_answer_block("1", [`40`], points: "1分")[为保证响应时间不超过2s (2000ms)，对于50个用户，在理想的轮转情况下，每个用户在一个周期内都能获得一次CPU时间。因此，时间片最大应为 $2000 #text("ms") / 50 = 40 #text("ms")$。]
+#fill_answer_block(
+  "1",
+  [`40`],
+  points: "1分",
+)[为保证响应时间不超过2s (2000ms)，对于50个用户，在理想的轮转情况下，每个用户在一个周期内都能获得一次CPU时间。因此，时间片最大应为 $(2000 #text("ms")) / 50 = 40 #text("ms")$。]
 
-#fill_answer_block("2", [`130`], points: "1分")[
-  程序A优先。
-  A: 计算1(30ms), I/O(40ms), 计算2(10ms)
-  B: 计算1(60ms), I/O(30ms), 计算2(10ms)
-  过程：
-  0-30ms: A执行计算1。
-  30-70ms: A执行I/O。此时B可以执行计算1 (从30ms开始)。
-  B的计算1需要60ms，到90ms结束。
-  70-80ms: A执行计算2 (A完成于80ms)。
-  90-120ms: B执行I/O (B的计算1在90ms完成)。
-  120-130ms: B执行计算2 (B完成于130ms)。
-  系统总运行时间为最后一个程序完成的时间，即130ms。]
+#fill_answer_block("2", [`110`], points: "1分")[
+  程序 A 开始计算（30 ms），同时程序 B 等待。
+  程序 A 进入 I/O 操作（40 ms），此时程序 B 开始计算（60 ms）。
+  程序 B 进入 I/O 操作（30 ms），此时程序 A 完成最后的计算（10 ms）。
+  程序 B 完成最后的计算（10 ms）。]
 
-#fill_answer_block("3", [混合索引分配方式 (或 多级索引分配)], points: "1分")[UNIX系统采用的是混合索引分配方式，结合了直接地址、一级间接地址、二级间接地址和三级间接地址来管理文件块。]
+#fill_answer_block(
+  "3",
+  [混合索引分配方式 (或 多级索引分配)],
+  points: "1分",
+)[UNIX系统采用的是混合索引分配方式，结合了直接地址、一级间接地址、二级间接地址和三级间接地址来管理文件块。]
 
-#fill_answer_block("4", [`2`], points: "1分")[信号量S.value的含义：若S.value $>= 0$，表示可用资源的数量；若S.value $< 0$，其绝对值表示等待队列中等待该资源的进程个数。S.value = -2，表示有2个进程在等待打印机。]
+#fill_answer_block(
+  "4",
+  [`2`],
+  points: "1分",
+)[信号量S.value的含义：若S.value $>= 0$，表示可用资源的数量；若S.value $< 0$，其绝对值表示等待队列中等待该资源的进程个数。S.value = -2，表示有2个进程在等待打印机。]
 
-#fill_answer_block("5", [消息缓冲区 (或 共享存储区/信箱)], points: "1分")[消息缓冲队列通信机制属于间接通信方式，进程通过读写内核中提供的一个公用的消息缓冲区（也称信箱或共享内存区域中的特定结构）来进行通信。]
+#fill_answer_block(
+  "5",
+  [消息缓冲区 (或 共享存储区/信箱)],
+  points: "1分",
+)[消息缓冲队列通信机制属于间接通信方式，进程通过读写内核中提供的一个公用的消息缓冲区（也称信箱或共享内存区域中的特定结构）来进行通信。]
 
 #fill_answer_block("6", [`10153`], points: "1分")[
   页面大小为1K (1024字节)。逻辑地址2985。
@@ -436,13 +532,18 @@
   题目给出的映射关系是：第0页->块2，第1页->块6，第2页->块9，第3页->块7。
   逻辑页2对应物理块9。
   物理地址 = 块号 $times$ 页面大小 + 页内偏移量 = $9 times 1024 + 937 = 9216 + 937 = 10153$。
+  原答案是10052, 不知道怎么算的🤓
 ]
 
-#fill_answer_block("7", [DMA (直接存储器存取)], points: "1分")[硬盘等高速I/O设备通常采用DMA（Direct Memory Access）方式进行数据传输，以减少CPU的干预，提高系统效率。]
+#fill_answer_block(
+  "7",
+  [DMA (直接存储器存取)],
+  points: "1分",
+)[硬盘等高速I/O设备通常采用DMA（Direct Memory Access）方式进行数据传输，以减少CPU的干预，提高系统效率。]
 
-#fill_answer_block("8", [`19`], points: "1分")[
+#fill_answer_block("8", [`20`], points: "1分")[
   盘块大小 = 1KB。硬盘大小 = 500MB。
-  总盘块数 = $500M B / 1K B = (500 times 1024 K B) / 1K B = 512000$ 个盘块。
+  总盘块数 = $(500M B )/( 1K B) = (500 times 1024 K B) / (1K B) = 512000$ 个盘块。
   FAT表项需要能够表示所有盘块的地址。设需要n个二进制位，则 $2^n >= 512000$。
   $2^18 = 262144$。
   $2^19 = 524288$。
@@ -452,7 +553,11 @@
   第8行、第15列的盘块号计算公式为：盘块号 = (行号 - 1) $times$ 每行列数 + 列号。
   盘块号 = $(8 - 1) times 16 + 15 = 7 times 16 + 15 = 112 + 15 = 127$。]
 
-#fill_answer_block("10", [互斥条件], points: "1分")[死锁产生的四个必要条件是：互斥条件、请求和保持条件、不可剥夺条件、循环等待条件。其中，互斥条件是由许多资源的固有特性（如打印机一次只能一个进程使用）决定的，一般不能破坏它，否则无法保证数据的一致性和正确性。]
+#fill_answer_block(
+  "10",
+  [互斥条件],
+  points: "1分",
+)[死锁产生的四个必要条件是：互斥条件、请求和保持条件、不可剥夺条件、循环等待条件。其中，互斥条件是由许多资源的固有特性（如打印机一次只能一个进程使用）决定的，一般不能破坏它，否则无法保证数据的一致性和正确性。]
 
 == 简答题 (共3题, 每题5分, 共15分)
 #let essay_answer_block(num, answer, score: "") = {
@@ -476,11 +581,11 @@
   "1",
   [
     进程与程序的主要区别如下：
-    1.  *定义：* 程序是静态的指令集合，是一组有序的指令代码，存储在磁盘等介质上。进程是程序的一次动态执行过程，是操作系统进行资源分配和调度的基本单位。
-    2.  *状态：* 程序是静态的，没有状态。进程是动态的，具有多种状态（如创建、就绪、运行、阻塞、终止）。
-    3.  *生命周期：* 程序可以永久存在。进程有生命周期，会创建、执行和消亡。
-    4.  *组成：* 程序主要指代码。进程由程序段、数据段和进程控制块（PCB）组成。PCB是进程存在的唯一标志。
-    5.  *对应关系：* 一个程序可以对应多个进程（例如运行一个程序多次），一个进程至少包含一个程序段。
+    1. *定义：* 程序是静态的指令集合，是一组有序的指令代码，存储在磁盘等介质上。进程是程序的一次动态执行过程，是操作系统进行资源分配和调度的基本单位。
+    2. *状态：* 程序是静态的，没有状态。进程是动态的，具有多种状态（如创建、就绪、运行、阻塞、终止）。
+    3. *生命周期：* 程序可以永久存在。进程有生命周期，会创建、执行和消亡。
+    4. *组成：* 程序主要指代码。进程由程序段、数据段和进程控制块（PCB）组成。PCB是进程存在的唯一标志。
+    5. *对应关系：* 一个程序可以对应多个进程（例如运行一个程序多次），一个进程至少包含一个程序段。
   ],
   score: "5分",
 )
@@ -492,10 +597,10 @@
     虚拟存储器是指具有请求调入功能和置换功能，能从逻辑上对内存容量进行扩充的一种存储器系统。其逻辑容量由CPU的寻址范围决定，其运行速度接近于主存速度，而成本又接近于辅存成本。它使得用户编程不受实际物理内存大小的限制，程序可以比物理内存大。
 
     *基本特征：*
-    1.  *多次性：* 一个作业被分成多次调入内存运行，无需一次全部装入。
-    2.  *对换性（或置换性）：* 作业运行时无需一直常驻内存，允许将暂时不用的程序或数据部分调出到外存，需要时再调入。
-    3.  *虚拟性：* 能够从逻辑上扩充内存容量，用户看到的内存容量远大于实际物理内存容量。
-    4.  *离散性：* 程序和数据可以离散地存放在内存的非连续区域中。
+    1. *多次性：* 一个作业被分成多次调入内存运行，无需一次全部装入。
+    2. *对换性（或置换性）：* 作业运行时无需一直常驻内存，允许将暂时不用的程序或数据部分调出到外存，需要时再调入。
+    3. *虚拟性：* 能够从逻辑上扩充内存容量，用户看到的内存容量远大于实际物理内存容量。
+    4. *离散性：* 程序和数据可以离散地存放在内存的非连续区域中。
   ],
   score: "5分",
 )
@@ -507,10 +612,10 @@
     进程同步是指在多道程序环境下，为了协调多个并发进程的执行顺序，确保它们能有效地共享资源和相互协作，从而避免出现数据不一致或运行结果错误等问题，而对进程的执行次序所进行的一种协调。
 
     *同步机制应遵循的原则：*
-    1.  *空闲让进：* 当没有进程处于临界区时，任何一个请求进入临界区的进程都应能立即进入。
-    2.  *忙则等待：* 当已有进程进入其临界区时，其他试图进入临界区的进程必须等待。
-    3.  *有限等待：* 对要求访问临界资源的进程，应保证其在有限时间内能进入临界区，避免“饿死”。
-    4.  *让权等待（可选，但提倡）：* 当进程不能进入其临界区时，应立即释放处理机，以免进程陷入“忙等”。
+    1. *空闲让进：* 当没有进程处于临界区时，任何一个请求进入临界区的进程都应能立即进入。
+    2. *忙则等待：* 当已有进程进入其临界区时，其他试图进入临界区的进程必须等待。
+    3. *有限等待：* 对要求访问临界资源的进程，应保证其在有限时间内能进入临界区，避免“饿死”。
+    4. *让权等待（可选，但提倡）：* 当进程不能进入其临界区时，应立即释放处理机，以免进程陷入“忙等”。
   ],
   score: "5分",
 )
@@ -545,53 +650,51 @@
 
     *1. 先来先服务 (FCFS) 调度算法：*
     调度顺序：A -> B -> C -> D -> E
-    - 进程A: 到达0, 服务3. 完成时间 = 3. 周转时间 = $3-0=3$. 带权周转时间 = $3/3 = 1.0$.
-    - 进程B: 到达2, 服务5. 开始时间 = 3. 完成时间 = $3+5=8$. 周转时间 = $8-2=6$. 带权周转时间 = $6/5 = 1.2$.
-    - 进程C: 到达3, 服务4. 开始时间 = 8. 完成时间 = $8+4=12$. 周转时间 = $12-3=9$. 带权周转时间 = $9/4 = 2.25$.
-    - 进程D: 到达5, 服务4. 开始时间 = 12. 完成时间 = $12+4=16$. 周转时间 = $16-5=11$. 带权周转时间 = $11/4 = 2.75$.
-    - 进程E: 到达8, 服务2. 开始时间 = 16. 完成时间 = $16+2=18$. 周转时间 = $18-8=10$. 带权周转时间 = $10/2 = 5.0$.
+    - 进程A: 到达0, 服务3. 完成时间 = 3. 周转时间 = $3-0=3$. 带权周转时间 = $3 / 3 = 1.0$.
+    - 进程B: 到达2, 服务5. 开始时间 = 3. 完成时间 = $3+5=8$. 周转时间 = $8-2=6$. 带权周转时间 = $6 / 5 = 1.2$.
+    - 进程C: 到达3, 服务4. 开始时间 = 8. 完成时间 = $8+4=12$. 周转时间 = $12-3=9$. 带权周转时间 = $9 / 4 = 2.25$.
+    - 进程D: 到达5, 服务4. 开始时间 = 12. 完成时间 = $12+4=16$. 周转时间 = $16-5=11$. 带权周转时间 = $11 / 4 = 2.75$.
+    - 进程E: 到达8, 服务2. 开始时间 = 16. 完成时间 = $16+2=18$. 周转时间 = $18-8=10$. 带权周转时间 = $10 / 2 = 5.0$.
 
     *2. 高响应比优先 (HRRN) 调度算法：*
     响应比 = (等待时间 + 服务时间) / 服务时间
     - 时间0: 只有A到达，A执行。
-      A: 完成时间 = 3. 周转时间 = $3-0=3$. 带权周转时间 = $3/3 = 1.0$.
+      A: 完成时间 = 3. 周转时间 = $3-0=3$. 带权周转时间 = $3 / 3 = 1.0$.
     - 时间3: A完成。B(到达2, 等待1), C(到达3, 等待0)已到达。
-      RR(B) = $(1+5)/5 = 1.2$.
-      RR(C) = $(0+4)/4 = 1.0$.
+      RR(B) = $(1+5) / 5 = 1.2$.
+      RR(C) = $(0+4) / 4 = 1.0$.
       选择B执行。
-      B: 开始3, 完成 $3+5=8$. 周转时间 = $8-2=6$. 带权周转时间 = $6/5 = 1.2$.
+      B: 开始3, 完成 $3+5=8$. 周转时间 = $8-2=6$. 带权周转时间 = $6 / 5 = 1.2$.
     - 时间8: B完成。C(到达3, 等待5), D(到达5, 等待3), E(到达8, 等待0)已到达。
-      RR(C) = $(5+4)/4 = 2.25$.
-      RR(D) = $(3+4)/4 = 1.75$.
-      RR(E) = $(0+2)/2 = 1.0$.
+      RR(C) = $(5+4) / 4 = 2.25$.
+      RR(D) = $(3+4) / 4 = 1.75$.
+      RR(E) = $(0+2) / 2 = 1.0$.
       选择C执行。
-      C: 开始8, 完成 $8+4=12$. 周转时间 = $12-3=9$. 带权周转时间 = $9/4 = 2.25$.
+      C: 开始8, 完成 $8+4=12$. 周转时间 = $12-3=9$. 带权周转时间 = $9 / 4 = 2.25$.
     - 时间12: C完成。D(到达5, 等待7), E(到达8, 等待4)已到达。
-      RR(D) = $(7+4)/4 = 2.75$.
-      RR(E) = $(4+2)/2 = 3.0$.
+      RR(D) = $(7+4) / 4 = 2.75$.
+      RR(E) = $(4+2) / 2 = 3.0$.
       选择E执行。
-      E: 开始12, 完成 $12+2=14$. 周转时间 = $14-8=6$. 带权周转时间 = $6/2 = 3.0$.
+      E: 开始12, 完成 $12+2=14$. 周转时间 = $14-8=6$. 带权周转时间 = $6 / 2 = 3.0$.
     - 时间14: E完成。只剩D(到达5, 等待9)。
       选择D执行。
-      D: 开始14, 完成 $14+4=18$. 周转时间 = $18-5=13$. 带权周转时间 = $13/4 = 3.25$.
+      D: 开始14, 完成 $14+4=18$. 周转时间 = $18-5=13$. 带权周转时间 = $13 / 4 = 3.25$.
 
-    #figure(
-      caption: [表3 调度结果 (以小数方式表示)],
-    )[#table(
-      columns: 6,
-      align: center,
-      stroke: 0.5pt,
-      inset: 4pt,
-      [*调度算法*], [*进程A*], [*进程B*], [*进程C*], [*进程D*], [*进程E*],
-      [*FCFS*], [], [], [], [], [],
-      [完成时间], [3.0], [8.0], [12.0], [16.0], [18.0],
-      [周转时间], [3.0], [6.0], [9.0], [11.0], [10.0],
-      [带权周转时间], [1.0], [1.2], [2.25], [2.75], [5.0],
-      [*HRRN*], [], [], [], [], [],
-      [完成时间], [3.0], [8.0], [12.0], [18.0], [14.0], // D and E order changed based on calculation
-      [周转时间], [3.0], [6.0], [9.0], [13.0], [6.0],
-      [带权周转时间], [1.0], [1.2], [2.25], [3.25], [3.0],
-    )]
+    #figure(caption: [表3 调度结果 (以小数方式表示)])[#table(
+        columns: 6,
+        align: center,
+        stroke: 0.5pt,
+        inset: 4pt,
+        [*调度算法*], [*进程A*], [*进程B*], [*进程C*], [*进程D*], [*进程E*],
+        [*FCFS*], [], [], [], [], [],
+        [完成时间], [3.0], [8.0], [12.0], [16.0], [18.0],
+        [周转时间], [3.0], [6.0], [9.0], [11.0], [10.0],
+        [带权周转时间], [1.0], [1.2], [2.25], [2.75], [5.0],
+        [*HRRN*], [], [], [], [], [],
+        [完成时间], [3.0], [8.0], [12.0], [18.0], [14.0], // D and E order changed based on calculation
+        [周转时间], [3.0], [6.0], [9.0], [13.0], [6.0],
+        [带权周转时间], [1.0], [1.2], [2.25], [3.25], [3.0],
+      )]
   ],
   [结果见上表],
   score: "共10分",
@@ -607,36 +710,36 @@
     *(1) 该状态是否安全？*
     *解：* 使用安全性算法检查。
     Work = Available = (1,6,2,2); Finish = [F,F,F,F,F]
-    - 步骤1: P0. Need P0(0,0,1,2) $<= $ Work(1,6,2,2). True.
+    - 步骤1: P0. Need P0(0,0,1,2) $<=$ Work(1,6,2,2). True.
       Work = (1,6,2,2) + (0,0,3,2) = (1,6,5,4). Finish[P0]=T. 安全序列: \<P0>
-    - 步骤2: P1. Need P1(1,7,5,0) $<= $ Work(1,6,5,4). False (7>6).
-    - 步骤3: P2. Need P2(2,3,5,6) $<= $ Work(1,6,5,4). False (2>1 or 6>4).
-    - 步骤4: P3. Need P3(0,6,5,2) $<= $ Work(1,6,5,4). True.
+    - 步骤2: P1. Need P1(1,7,5,0) $<=$ Work(1,6,5,4). False (7>6).
+    - 步骤3: P2. Need P2(2,3,5,6) $<=$ Work(1,6,5,4). False (2>1 or 6>4).
+    - 步骤4: P3. Need P3(0,6,5,2) $<=$ Work(1,6,5,4). True.
       Work = (1,6,5,4) + (0,3,3,2) = (1,9,8,6). Finish[P3]=T. 安全序列: \<P0,P3>
-    - 步骤5: P4. Need P4(0,6,5,6) $<= $ Work(1,9,8,6). True.
+    - 步骤5: P4. Need P4(0,6,5,6) $<=$ Work(1,9,8,6). True.
       Work = (1,9,8,6) + (0,0,1,4) = (1,9,9,10). Finish[P4]=T. 安全序列: \<P0,P3,P4>
-    - 步骤6: P1. Need P1(1,7,5,0) $<= $ Work(1,9,9,10). True.
+    - 步骤6: P1. Need P1(1,7,5,0) $<=$ Work(1,9,9,10). True.
       Work = (1,9,9,10) + (1,0,0,0) = (2,9,9,10). Finish[P1]=T. 安全序列: \<P0,P3,P4,P1>
-    - 步骤7: P2. Need P2(2,3,5,6) $<= $ Work(2,9,9,10). True.
+    - 步骤7: P2. Need P2(2,3,5,6) $<=$ Work(2,9,9,10). True.
       Work = (2,9,9,10) + (1,3,5,4) = (3,12,14,14). Finish[P2]=T. 安全序列: \<P0,P3,P4,P1,P2>
     所有进程均可完成，该状态安全。安全序列例如 P0, P3, P4, P1, P2。
-#line(length: 100%,stroke: 0.5pt)
+    #line(length: 100%, stroke: 0.5pt)
     *(2) 若进程 P2 提出请求 Request(1,2,2,2), 系统能否将资源分配给它？*
     *解：*
-    - 检查 Request_P2(1,2,2,2) $<= $ Need_P2(2,3,5,6). True.
-    - 检查 Request_P2(1,2,2,2) $<= $ Available(1,6,2,2). True.
+    - 检查 Request_P2(1,2,2,2) $<=$ Need_P2(2,3,5,6). True.
+    - 检查 Request_P2(1,2,2,2) $<=$ Available(1,6,2,2). True.
     - 假设分配：
       New_Available = (1,6,2,2) - (1,2,2,2) = (0,4,0,0).
       New_Allocation_P2 = (1,3,5,4) + (1,2,2,2) = (2,5,7,6).
       New_Need_P2 = (2,3,5,6) - (1,2,2,2) = (1,1,3,4).
     - 对新状态进行安全性检查：Work = (0,4,0,0). Need' P2(1,1,3,4).
-      P0: Need(0,0,1,2) $<= $ Work(0,4,0,0) -> False (1>0).
-      P1: Need(1,7,5,0) $<= $ Work(0,4,0,0) -> False (1>0).
-      P2': Need(1,1,3,4) $<= $ Work(0,4,0,0) -> False (1>0).
-      P3: Need(0,6,5,2) $<= $ Work(0,4,0,0) -> False (6>4).
-      P4: Need(0,6,5,6) $<= $ Work(0,4,0,0) -> False (6>4).
+      P0: Need(0,0,1,2) $<=$ Work(0,4,0,0) -> False (1>0).
+      P1: Need(1,7,5,0) $<=$ Work(0,4,0,0) -> False (1>0).
+      P2': Need(1,1,3,4) $<=$ Work(0,4,0,0) -> False (1>0).
+      P3: Need(0,6,5,2) $<=$ Work(0,4,0,0) -> False (6>4).
+      P4: Need(0,6,5,6) $<=$ Work(0,4,0,0) -> False (6>4).
       新状态不安全。系统不能分配。
-#line(length: 100%,stroke: 0.5pt)
+    #line(length: 100%, stroke: 0.5pt)
     *(3) 如果系统立即满足P2的请求, 系统是否会立即进入死锁状态？为什么？*
     *解：* 不会立即进入死锁状态。不安全状态意味着存在进入死锁的风险，但并非立即死锁。死锁是进程循环等待资源且无法继续执行的状态。银行家算法的目的是避免进入不安全状态。
   ],
@@ -659,22 +762,22 @@
       align: (center, left, center, center),
       stroke: 0.5pt,
       [*访问序列*], [*内存状态 (队头->队尾)*], [*是否缺页*], [*换出页*],
-      [3],         [3],                  [Y],        [-],
-      [4],         [3, 4],               [Y],        [-],
-      [1],         [3, 4, 1],            [Y],        [-],
-      [3],         [3, 4, 1],            [N],        [-],
-      [2],         [3, 4, 1, 2],         [Y],        [-],
-      [0],         [4, 1, 2, 0],         [Y],        [3],
-      [3],         [1, 2, 0, 3],         [Y],        [4],
-      [2],         [1, 2, 0, 3],         [N],        [-],
-      [4],         [2, 0, 3, 4],         [Y],        [1],
-      [2],         [2, 0, 3, 4],         [N],        [-],
-      [3],         [2, 0, 3, 4],         [N],        [-],
-      [0],         [2, 0, 3, 4],         [N],        [-],
-      [1],         [0, 3, 4, 1],         [Y],        [2],
-      [2],         [3, 4, 1, 2],         [Y],        [0],
+      [3], [3], [Y], [-],
+      [4], [3, 4], [Y], [-],
+      [1], [3, 4, 1], [Y], [-],
+      [3], [3, 4, 1], [N], [-],
+      [2], [3, 4, 1, 2], [Y], [-],
+      [0], [4, 1, 2, 0], [Y], [3],
+      [3], [1, 2, 0, 3], [Y], [4],
+      [2], [1, 2, 0, 3], [N], [-],
+      [4], [2, 0, 3, 4], [Y], [1],
+      [2], [2, 0, 3, 4], [N], [-],
+      [3], [2, 0, 3, 4], [N], [-],
+      [0], [2, 0, 3, 4], [N], [-],
+      [1], [0, 3, 4, 1], [Y], [2],
+      [2], [3, 4, 1, 2], [Y], [0],
     )
-    FIFO缺页次数: 9次。 缺页率: $9/14 approx 0.64$.
+    FIFO缺页次数: 9次。 缺页率: $9 / 14 approx 0.64$.
 
     *2. LRU 页面置换算法：* (栈底为最久未使用，栈顶为最近使用)
     #table(
@@ -682,26 +785,26 @@
       align: (center, left, center, center),
       stroke: 0.5pt,
       [*访问序列*], [*内存状态 (栈底->栈顶)*], [*是否缺页*], [*换出页*],
-      [3],       [3],                [Y],        [-],
-      [4],       [3, 4],             [Y],        [-],
-      [1],       [3, 4, 1],          [Y],        [-],
-      [3],       [4, 1, 3],          [N],        [-],
-      [2],       [4, 1, 3, 2],       [Y],        [-],
-      [0],       [1, 3, 2, 0],       [Y],        [4],
-      [3],       [1, 2, 0, 3],       [N],        [-],
-      [2],       [1, 0, 3, 2],       [N],        [-],
-      [4],       [0, 3, 2, 4],       [Y],        [1],
-      [2],       [0, 3, 4, 2],       [N],        [-],
-      [3],       [0, 4, 2, 3],       [N],        [-],
-      [0],       [4, 2, 3, 0],       [N],        [-],
-      [1],       [2, 3, 0, 1],       [Y],        [4],
-      [2],       [3, 0, 1, 2],       [N],        [-],
+      [3], [3], [Y], [-],
+      [4], [3, 4], [Y], [-],
+      [1], [3, 4, 1], [Y], [-],
+      [3], [4, 1, 3], [N], [-],
+      [2], [4, 1, 3, 2], [Y], [-],
+      [0], [1, 3, 2, 0], [Y], [4],
+      [3], [1, 2, 0, 3], [N], [-],
+      [2], [1, 0, 3, 2], [N], [-],
+      [4], [0, 3, 2, 4], [Y], [1],
+      [2], [0, 3, 4, 2], [N], [-],
+      [3], [0, 4, 2, 3], [N], [-],
+      [0], [4, 2, 3, 0], [N], [-],
+      [1], [2, 3, 0, 1], [Y], [4],
+      [2], [3, 0, 1, 2], [N], [-],
     )
-    LRU缺页次数: 7次。 缺页率: $7/14 = 0.50$.
+    LRU缺页次数: 7次。 缺页率: $7 / 14 = 0.50$.
   ],
   [
-    *FIFO算法：* 缺页次数：9次。 缺页率：$9/14 approx 0.64$。
-    *LRU算法：*  缺页次数：7次。 缺页率：$7/14 = 0.50$。
+    *FIFO算法：* 缺页次数：9次。 缺页率：$9 / 14 approx 0.64$。
+    *LRU算法：* 缺页次数：7次。 缺页率：$7 / 14 = 0.50$。
   ],
   score: "共10分",
 )
@@ -741,7 +844,7 @@
     - C 是 `test` (因为路径 `/home/wang/test/work` 且 wang 下是 C)
     - D 是 `mydir` (因为路径 `/home/sun/mydir/work` 且 sun 下是 D)
     - E 是共享文件 `work` 的i-node。
-    
+
     所以：
     A: `home`
     B: `sun`
@@ -757,34 +860,335 @@
   [
     文件A依次占用磁盘块号：3, 6, 8, 10, 5。
     MS-DOS 文件系统使用文件分配表 (FAT) 来链接文件的各个盘块。
-    
-    *文件A的盘块链接情况：*
-    起始块: 3
-    链接: 3 -> 6 -> 8 -> 10 -> 5 (结束)
 
-    *FAT表示意 (假设文件结束符为 -1 或 FFF等)：*
-    ```
-    FAT表地址 | 内容 (下一块号 / 结束标志)
-    -----------------------------------
-    ...       | ...
-    2         | (其他文件/空闲)
-    3         | 6
-    4         | (其他文件/空闲)
-    5         | -1  (文件结束)
-    6         | 8
-    7         | (其他文件/空闲)
-    8         | 10
-    9         | (其他文件/空闲)
-    10        | 5
-    ...       | ...
-    ```
 
-    *图示：*
-    目录条目中文件A的起始块号指向3。
-    (逻辑磁盘块)
-    [块3] --> [块6] --> [块8] --> [块10] --> [块5 (EOF)]
-    
-    FAT表中，索引为3的条目存放6，索引为6的条目存放8，索引为8的条目存放10，索引为10的条目存放5，索引为5的条目存放文件结束标志。
+#figure(caption: [MS-DOS 文件系统中文件A的FAT链接示意图])[
+  #canvas({
+    import draw: *
+    // --- 1. 设置与常量定义 ---
+    let canvas-padding = 0.1
+    set-style(content: (padding: canvas-padding))
+    // scale(0.9)  // 缩放整体图形
+
+    // 颜色定义 - 改为黑白灰度
+    let color-dir-bg = rgb("#F0F0F0")           // 浅灰
+    let color-dir-start-bg = rgb("#E0E0E0")     // 中浅灰
+    let color-fat-highlight = rgb("#D0D0D0")    // 中灰
+    let color-fat-default = rgb("#FFFFFF")      // 白色
+    let color-block-data = rgb("#E8E8E8")       // 浅灰
+    let color-block-eof = rgb("#C0C0C0")        // 深灰
+    let color-arrow-dir = rgb("#000000")        // 黑色
+    let color-arrow-fat = rgb("#000000")        // 黑色
+    let color-legend-bg = rgb("#F8F8F8")        // 极浅灰
+
+    // 描边与字体
+    let stroke-default = 1pt + black
+    let stroke-thin = 0.5pt + black
+    let stroke-arrow = 1.5pt + black
+    let stroke-thick = 2pt + black
+    let font-size-small = 8pt
+    let font-size-fat = 9pt
+    let font-size-normal = 10pt
+    let font-size-title = 11pt
+    let font-weight-bold = "bold"
+
+    // 布局参数 - 重新调整整体布局
+    let dir-entry-y-top = 6.5
+    let dir-entry-height = 0.8
+    let dir-entry-main-width = 2.8
+    let dir-entry-start-width = 1.8
+    let dir-entry-total-width = dir-entry-main-width + dir-entry-start-width
+    let dir-entry-y-center = dir-entry-y-top + dir-entry-height / 2
+    let dir-entry-y-bottom = dir-entry-y-top + dir-entry-height
+
+    let fat-title-pos-y = 5.5
+    let fat-start-y-center = 4.8
+    let fat-cell-height = 0.3  // 增加单元格高度
+    let fat-y-step = 0.35      // 增加行间距
+    let fat-idx-width = 1.2    // 增加索引列宽度
+    let fat-content-width = 1.8 // 增加内容列宽度
+    let fat-table-x-start = 0.5
+    let fat-table-x-end = fat-table-x-start + fat-idx-width + fat-content-width
+
+    let block-title-pos-y = 5.5
+    let block-y-center = 3.2
+    let block-width = 1.1
+    let block-height = 0.5
+    let block-start-x = 6.5    // 向右移动磁盘块，为更大的FAT表让位
+    let block-h-gap = 0.7
+
+    let legend-y = -0.5        // 向下移动图例
+    let legend-height = 0.8
+
+    // 存储关键坐标点
+    let fat-entry-link-points = ()
+    let block-link-points-top = ()
+    let block-link-points-bottom = ()
+    let block-centers = ()
+
+    // --- 2. 辅助函数 ---
+    let draw-labelled-rect(
+      p1,
+      p2,
+      fill-color,
+      text-content,
+      text-size: font-size-fat,
+      text-weight: "regular",
+      rect-stroke: stroke-default,
+    ) = {
+      rect(p1, p2, stroke: rect-stroke, fill: fill-color)
+      let (x1, y1) = p1
+      let (x2, y2) = p2
+      content(((x1 + x2) / 2, (y1 + y2) / 2), text(size: text-size, weight: text-weight, fill: black)[#text-content])
+    }
+
+    // --- 3. 画目录条目 ---
+    let dir-main-p1 = (fat-table-x-start, dir-entry-y-top)
+    let dir-main-p2 = (fat-table-x-start + dir-entry-main-width, dir-entry-y-bottom)
+    draw-labelled-rect(
+      dir-main-p1,
+      dir-main-p2,
+      color-dir-bg,
+      [文件A目录项],
+      text-size: font-size-normal,
+      text-weight: font-weight-bold,
+    )
+
+    let dir-start-p1 = (fat-table-x-start + dir-entry-main-width, dir-entry-y-top)
+    let dir-start-p2 = (fat-table-x-start + dir-entry-total-width, dir-entry-y-bottom)
+    draw-labelled-rect(
+      dir-start-p1,
+      dir-start-p2,
+      color-dir-start-bg,
+      [起始块: 3],
+      text-size: font-size-normal,
+      text-weight: font-weight-bold,
+    )
+
+    let dir-start-block-link-from-x = (dir-start-p1.at(0) + dir-start-p2.at(0)) / 2
+    let dir-start-block-link-from-y = dir-start-p1.at(1)
+
+    // --- 4. 画FAT表 ---
+    content(
+      (fat-table-x-start + (fat-idx-width + fat-content-width) / 2, fat-title-pos-y),
+      text(weight: font-weight-bold, size: font-size-title)[FAT 表],
+    )
+
+    // FAT表头 - 使用更大的尺寸
+    draw-labelled-rect(
+      (fat-table-x-start, fat-start-y-center + fat-cell-height),
+      (fat-table-x-start + fat-idx-width, fat-start-y-center + fat-cell-height * 2),
+      rgb("#CCCCCC"),  // 深灰替代原来的颜色
+      text(size:7pt)[物理块号],
+      text-weight: font-weight-bold,
+      text-size: font-size-fat,
+    )
+    draw-labelled-rect(
+      (fat-table-x-start + fat-idx-width, fat-start-y-center + fat-cell-height),
+      (fat-table-x-end, fat-start-y-center + fat-cell-height * 2),
+      rgb("#CCCCCC"),  // 深灰替代原来的颜色
+      [内容],
+      text-weight: font-weight-bold,
+      text-size: font-size-fat,
+    )
+
+    let fat_entries = (
+      (0, "..."),
+      (1, "..."),
+      (2, "其他"),
+      (3, "6"),
+      (4, "其他"),
+      (5, "EOF"),
+      (6, "8"),
+      (7, "其他"),
+      (8, "10"),
+      (9, "其他"),
+      (10, "5"),
+      (11, "..."),
+    )
+
+    for (i, (idx, content_text)) in fat_entries.enumerate() {
+      let current-y-center = fat-start-y-center - i * fat-y-step
+      let cell-top-y = current-y-center - fat-cell-height / 2
+      let cell-bottom-y = current-y-center + fat-cell-height / 2
+
+      let color = if content_text in ("6", "8", "10", "5", "EOF") {
+        color-fat-highlight
+      } else {
+        color-fat-default
+      }
+
+      let text-weight = if content_text in ("6", "8", "10", "5", "EOF") {
+        font-weight-bold
+      } else {
+        "regular"
+      }
+
+      // FAT索引单元格
+      draw-labelled-rect(
+        (fat-table-x-start, cell-top-y),
+        (fat-table-x-start + fat-idx-width, cell-bottom-y),
+        color,
+        [#idx],
+        rect-stroke: stroke-thin,
+        text-size: font-size-fat,  // 使用更大的字体
+        text-weight: text-weight,
+      )
+
+      // FAT内容单元格
+      draw-labelled-rect(
+        (fat-table-x-start + fat-idx-width, cell-top-y),
+        (fat-table-x-end, cell-bottom-y),
+        color,
+        [#content_text],
+        rect-stroke: stroke-thin,
+        text-size: font-size-fat,  // 使用更大的字体
+        text-weight: text-weight,
+      )
+
+      // 存储FAT表项右侧连接点
+      fat-entry-link-points.push((fat-table-x-end, current-y-center))
+    }
+
+    // --- 5. 画磁盘块链接 ---
+    content(
+      (block-start-x + 4, block-title-pos-y -1),
+      text(weight: font-weight-bold, size: font-size-title)[磁盘块链接关系],
+    )
+
+    let disk_blocks_data = (3, 6, 8, 10, 5)
+    for (i, block_num) in disk_blocks_data.enumerate() {
+      let current-block-x-start = block-start-x + i * (block-width + block-h-gap)
+      let current-block-x-center = current-block-x-start + block-width / 2
+      let block-top-y = block-y-center - block-height / 2
+      let block-bottom-y = block-y-center + block-height / 2
+
+      // 存储连接点
+      block-link-points-top.push((current-block-x-center, block-top-y))
+      block-link-points-bottom.push((current-block-x-center, block-bottom-y))
+      block-centers.push((current-block-x-center, block-y-center))
+
+      let block-p1 = (current-block-x-start, block-top-y)
+      let block-p2 = (current-block-x-start + block-width, block-bottom-y)
+
+      if i == disk_blocks_data.len() - 1 {
+        // 最后一个块
+        draw-labelled-rect(
+          block-p1,
+          block-p2,
+          color-block-eof,
+          [块#block_num],
+          text-weight: font-weight-bold,
+          text-size: font-size-normal,
+          rect-stroke: stroke-thick,
+        )
+        content(
+          (current-block-x-center + 1, block-bottom-y - 0.25),
+          text(size: font-size-small, fill: black, weight: font-weight-bold)[EOF],  // 改为黑色
+        )
+      } else {
+        // 数据块
+        draw-labelled-rect(
+          block-p1,
+          block-p2,
+          color-block-data,
+          [块#block_num],
+          text-weight: font-weight-bold,
+          text-size: font-size-normal,
+          rect-stroke: stroke-thick,
+        )
+
+        // 块间箭头 - 使用黑色实线
+        line(
+          (current-block-x-start + block-width, block-y-center),
+          (current-block-x-start + block-width + block-h-gap, block-y-center),
+          mark: (end: ">"),
+          stroke: 2pt + black,  // 直接定义粗黑线
+        )
+      }
+    }
+
+    // --- 6. 画箭头 ---
+    // 从目录项到第一个块的箭头
+    let first_block_position = 0 // 块3在链中的位置
+    line(
+      (dir-start-block-link-from-x, dir-start-block-link-from-y),
+      block-link-points-top.at(first_block_position),
+      mark: (end: ">"),
+      stroke: 2pt + black,  // 直接定义粗黑线
+    )
+
+    // 添加箭头标签
+    content(
+      (
+        dir-start-block-link-from-x - 0.5,
+        (dir-start-block-link-from-y + block-link-points-top.at(first_block_position).at(1)) / 2,
+      ),
+      text(size: font-size-small, fill: black, weight: font-weight-bold)[指向],  // 改为黑色
+    )
+
+    // FAT表项之间的关系箭头
+    let fat_to_block_links = (
+      (fat_idx: 3, block_val: 3),
+      (fat_idx: 6, block_val: 6),
+      (fat_idx: 8, block_val: 8),
+      (fat_idx: 10, block_val: 10),
+    )
+
+    for link in fat_to_block_links {
+      let block_chain_idx = none
+      for (i, val) in disk_blocks_data.enumerate() {
+        if val == link.block_val {
+          block_chain_idx = i
+          break
+        }
+      }
+
+      if block_chain_idx != none {
+        line(
+          fat-entry-link-points.at(link.fat_idx),
+          (block-link-points-bottom.at(block_chain_idx))+(1,),
+          mark: (end: ">"),
+          stroke: 1pt + black,  // 直接定义黑线
+          dash: "dashed",
+        )
+      }
+    }
+
+    // --- 7. 图例 ---
+    // 绘制图例背景
+    rect(
+      (fat-table-x-start+2, legend-y + 0.8),
+      (13, legend-y + 1.6),  // 向下移动图例
+      stroke: stroke-thin,
+      fill: color-legend-bg,
+    )
+
+    content(
+      (7.25, legend-y + 1.35),
+      text(weight: font-weight-bold, size: font-size-normal, fill: black)[图例说明],  // 改为黑色
+    )
+
+    let legend-items = (
+      ([实线: 目录指向], 3.5),        // 移除颜色描述
+      ([虚线: FAT链接], 6.5),        // 移除颜色描述
+      ([浅灰框: 数据块], 9.5),       // 改为灰度描述
+      ([深灰框: 结束块], 12),        // 改为灰度描述
+    )
+
+    for (item, x_pos) in legend-items {
+      content((x_pos, legend-y + 0.95), text(size: font-size-small, fill: black)[#item])  // 改为黑色
+    }
+  })
+]
+    *解析：*
+    1. 目录条目中记录文件A的起始块号为3
+    2. FAT表中索引3的条目存储下一块号6
+    3. FAT表中索引6的条目存储下一块号8  
+    4. FAT表中索引8的条目存储下一块号10
+    5. FAT表中索引10的条目存储下一块号5
+    6. FAT表中索引5的条目存储文件结束标志(EOF)
+    7. 因此文件A的块链接顺序为：3 → 6 → 8 → 10 → 5 (结束)
   ],
   score: "5分",
 )
@@ -803,13 +1207,14 @@
   #v(-5pt)
   #text(size: 9pt, font: "SF Mono")[#code]
 ]
-#let code_answer_block(num, code, explanation: "", score: "") = {
+#let code_answer_block(num, code, explanation: "", score: "",isbreakable:true) = {
   block(
     width: 100%,
     fill: rgb("#F8F9FA"),
     stroke: (left: 3pt + rgb("#6F42C1")),
     inset: (left: 8pt, rest: 6pt),
     radius: (right: 3pt),
+    breakable: isbreakable,
   )[
     #text(weight: "bold", fill: rgb("#6F42C1"))[第#num 题参考代码] #if score != "" [#text(fill: gray)[(#score)]]
 
@@ -818,14 +1223,88 @@
 
     #if explanation != "" [
       #v(4pt)
-      #text()[*评分要点：*#explanation]
+      #text()[#explanation]
     ]
   ]
   v(6pt)
 }
 #code_answer_block(
   "1",
-  ```c
+  [
+       #figure(caption: [题目信息])[
+        #set text(size:6.5pt)
+        #canvas({
+  import draw: *
+  scale(0.55)
+  // 绘制进程P
+  rect((0, 4), (2, 6), stroke: black, fill: none)
+  content((1, 5), [进程P])
+  content((1, 4.5), [读入信息])
+  
+  // 绘制进程Q  
+  rect((5, 4), (7, 6), stroke: black, fill: none)
+  content((6, 5.2), [进程Q])
+  content((6, 4.5), [加工信息])
+  
+  // 绘制进程R
+  rect((10, 4), (12, 6), stroke: black, fill: none)
+  content((11, 5), [进程R])
+  content((11, 4.5), [打印输出])
+  
+  // 绘制缓冲池1 (P和Q共享)
+  rect((2.5, 1.5), (4.5, 3.5), stroke: black, fill: none)
+  content((3.5, 2.5), [缓冲池1])
+  content((3.5, 2), [m个缓冲区])
+  
+  // 绘制缓冲池2 (Q和R共享)
+  rect((7.5, 1.5), (9.5, 3.5), stroke: black, fill: none)
+  content((8.5, 2.5), [缓冲池2])
+  content((8.5, 2), [n个缓冲区])
+  
+  // 绘制输入设备
+  rect((-2, 4.5), (0, 5.5), stroke: black, fill: none)
+  content((-1, 5), [输入设备])
+  
+  // 绘制输出设备
+  rect((12, 4.5), (14, 5.5), stroke: black, fill: none)  
+  content((13, 5), [输出设备])
+  
+  // 绘制箭头和连接线
+  // 输入设备到P
+  line((-2, 5), (0, 5), stroke: black, mark: (end: ">"))
+  
+  // P到缓冲池1
+  line((1, 4), (3.5, 3.5), stroke: black, mark: (end: ">"))
+  
+  // 缓冲池1到Q
+  line((3.5, 3.5), (6, 4), stroke: black, mark: (end: ">"))
+  
+  // Q到缓冲池2
+  line((6, 4), (8.5, 3.5), stroke: black, mark: (end: ">"))
+  
+  // 缓冲池2到R
+  line((8.5, 3.5), (11, 4), stroke: black, mark: (end: ">"))
+  
+  // R到输出设备
+  line((12, 5), (14, 5), stroke: black, mark: (end: ">"))
+  
+  // 添加标签说明
+  content((3.5, 0.5), [P和Q共享])
+  content((8.5, 0.5), [Q和R共享])
+  
+  // 添加PV操作说明
+  content((1, 7), [P操作:])
+  content((1, 6.5), [写入缓冲池1])
+  
+  content((6, 7), [Q操作:])
+  content((6, 6.6), [从缓冲池1读取])
+  content((6, 6.2), [写入缓冲池2])
+  
+  content((11, 7), [R操作:])
+  content((11, 6.5), [从缓冲池2读取])
+})]
+  
+    ```c
   // 定义信号量和缓冲区 (伪代码风格)
   semaphore mutex1 = 1;      // 缓冲池1互斥锁
   semaphore empty1 = m;      // 缓冲池1空缓冲区数
@@ -886,15 +1365,8 @@
           print_output(item_to_print); // 打印输出信息
       }
   }
-  ```,
+  ```],
   explanation: [
-    - 正确定义和初始化所有必需的信号量 (mutex1, empty1, full1, mutex2, empty2, full2)。(3分)
-    - 进程P的逻辑正确：P(empty1) -> P(mutex1) -> 操作 -> V(mutex1) -> V(full1)。(2分)
-    - 进程Q的逻辑正确：
-      - 从pool1取：P(full1) -> P(mutex1) -> 操作 -> V(mutex1) -> V(empty1)。
-      - 向pool2放：P(empty2) -> P(mutex2) -> 操作 -> V(mutex2) -> V(full2)。(3分)
-    - 进程R的逻辑正确：P(full2) -> P(mutex2) -> 操作 -> V(mutex2) -> V(empty2)。(2分)
-    - PV操作成对出现，同步信号量在外，互斥信号量在内（保护临界区）。
-  ],
+],
   score: "共10分",
 )
