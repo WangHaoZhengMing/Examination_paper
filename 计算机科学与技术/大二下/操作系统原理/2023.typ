@@ -131,8 +131,8 @@
 10. 多级文件目录可以提高文件的查询速度。#h(1fr) 【 】
 
 = 简答题(共2题,每题5分,共10分)
-1. 什么是进程?说明进程有无如下状态转换,为什么?
-
+1. 什么是进程?说明进程有无如下状态转换,为什么?\
+  (1) 阻塞→运行 （2）就绪→运行
 2. 什么是文件目录?目录管理的要求有哪些?
 
 = 算法综合题(共7题,共60分)
@@ -326,7 +326,9 @@
 #let answer_block(num, answer, explanation, breakable: false) = {
   block(width: 100%, breakable: breakable)
   [#text(weight: "bold", size: 10pt)[#num. 答案：#answer]
-    #text(size: 9pt)[#explanation]]
+    #text(size: 9pt)[#explanation]
+    #v(-10pt)
+    ]
 }
 #figure()[#table(
     columns: 10,

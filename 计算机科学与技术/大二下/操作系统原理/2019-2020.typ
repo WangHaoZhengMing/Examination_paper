@@ -139,7 +139,7 @@
       align: center,
       inset: 5pt,
       stroke: 0.5pt,
-      [*程序*\ *操作*], [*A*], [*B*],
+      [*程序操作*], [*A*], [*B*],
       [*计算*], [30], [60],
       [*I/O*], [40], [30],
       [*计算*], [10], [10],
@@ -170,7 +170,7 @@
   #grid(
     columns: 2,
     gutter: 1fr,
-    align: center+horizon,
+    align: center + horizon,
     [
       #figure(
         table(
@@ -346,8 +346,51 @@
 #answer_block(
   "1",
   [B],
-)[本题考查页式存储管理的地址结构。页式存储管理中，逻辑地址由页号和页内偏移量两部分组成]
+)[本题考查页式存储管理的地址结构。页式存储管理中，逻辑地址由页号和页内偏移量两部分组成
 
+  在存储管理中，*一维地址*和*二维地址*的区别主要取决于内存管理方式（页式 vs 段式）以及地址的划分逻辑。以下是具体分析：
+
+  *1. 一维地址（线性地址）*
+
+  - *页式存储管理*（如题目中的场景）
+    逻辑地址被划分为：
+    *页号（Page Number） + 页内偏移量（Offset）*
+    虽然形式上看似两部分，但程序生成的地址是连续的、一维的线性空间，由硬件/操作系统通过页表隐式分割，*对用户透明*。
+    *本质是一维地址*，因为程序视角无需关心分页机制。
+
+  - *实际例子*：
+    - 现代操作系统的虚拟内存（如Linux、Windows的分页机制）。
+    - CPU生成的逻辑地址（如32位系统的`0x00000000`~`0xFFFFFFFF`）。
+
+  *特点：*
+  - 程序看到的地址空间是连续的、无结构的数字序列。
+  - 分页机制由硬件自动管理，用户无需感知页号/偏移量的划分。
+
+  *2. 二维地址*
+
+  - *段式存储管理*
+    逻辑地址显式划分为：
+    *段号（Segment Number） + 段内偏移量（Offset）*
+    程序需要显式指定段和偏移量（如汇编中的`DS:0x0040`），*用户或编译器需主动管理分段*。
+
+  - *实际例子*：
+    - x86架构的实模式（如`CS:IP`、`DS:SI`等段寄存器+偏移量）。
+    - 早期分段内存管理（如Intel 8086）。
+
+  *特点：*
+  - 地址由两部分显式构成，程序需感知段的存在。
+  - 支持模块化内存管理（代码段、数据段等），但易产生外部碎片。
+
+  *关键对比*
+  #table(
+    columns: 5,
+    align: center,
+    stroke: 0.5pt,
+    [*管理方式*], [*地址构成*], [*用户感知*], [*典型应用*], [*维度*],
+    [页式], [页号+偏移], [透明], [现代虚拟内存], [一维],
+    [段式], [段号+偏移], [显式], [早期分段系统], [二维],
+  )
+]
 #answer_block(
   "2",
   [A],
@@ -543,7 +586,7 @@
 
 #fill_answer_block("8", [`20`], points: "1分")[
   盘块大小 = 1KB。硬盘大小 = 500MB。
-  总盘块数 = $(500M B )/( 1K B) = (500 times 1024 K B) / (1K B) = 512000$ 个盘块。
+  总盘块数 = $(500M B ) / ( 1K B) = (500 times 1024 K B) / (1K B) = 512000$ 个盘块。
   FAT表项需要能够表示所有盘块的地址。设需要n个二进制位，则 $2^n >= 512000$。
   $2^18 = 262144$。
   $2^19 = 524288$。
@@ -560,13 +603,14 @@
 )[死锁产生的四个必要条件是：互斥条件、请求和保持条件、不可剥夺条件、循环等待条件。其中，互斥条件是由许多资源的固有特性（如打印机一次只能一个进程使用）决定的，一般不能破坏它，否则无法保证数据的一致性和正确性。]
 
 == 简答题 (共3题, 每题5分, 共15分)
-#let essay_answer_block(num, answer, score: "") = {
+#let essay_answer_block(num, answer, score: "", isbreakable: true) = {
   block(
     width: 100%,
     fill: rgb("#F0FFF0"),
     stroke: (left: 3pt + rgb("#20C997")),
     inset: (left: 8pt, rest: 6pt),
     radius: (right: 3pt),
+    breakable: isbreakable,
   )[
     #text(weight: "bold", fill: rgb("#20C997"))[第#num 题答案] #if score != "" [#text(fill: gray)[(#score)]]
 
@@ -592,6 +636,7 @@
 
 #essay_answer_block(
   "2",
+  isbreakable: false,
   [
     *什么是虚拟存储器：*
     虚拟存储器是指具有请求调入功能和置换功能，能从逻辑上对内存容量进行扩充的一种存储器系统。其逻辑容量由CPU的寻址范围决定，其运行速度接近于主存速度，而成本又接近于辅存成本。它使得用户编程不受实际物理内存大小的限制，程序可以比物理内存大。
@@ -600,7 +645,6 @@
     1. *多次性：* 一个作业被分成多次调入内存运行，无需一次全部装入。
     2. *对换性（或置换性）：* 作业运行时无需一直常驻内存，允许将暂时不用的程序或数据部分调出到外存，需要时再调入。
     3. *虚拟性：* 能够从逻辑上扩充内存容量，用户看到的内存容量远大于实际物理内存容量。
-    4. *离散性：* 程序和数据可以离散地存放在内存的非连续区域中。
   ],
   score: "5分",
 )
@@ -862,329 +906,332 @@
     MS-DOS 文件系统使用文件分配表 (FAT) 来链接文件的各个盘块。
 
 
-#figure(caption: [MS-DOS 文件系统中文件A的FAT链接示意图])[
-  #canvas({
-    import draw: *
-    // --- 1. 设置与常量定义 ---
-    let canvas-padding = 0.1
-    set-style(content: (padding: canvas-padding))
-    // scale(0.9)  // 缩放整体图形
+    #figure(caption: [MS-DOS 文件系统中文件A的FAT链接示意图])[
+      #canvas({
+        import draw: *
+        // --- 1. 设置与常量定义 ---
+        let canvas-padding = 0.1
+        set-style(content: (padding: canvas-padding))
+        // scale(0.9)  // 缩放整体图形
 
-    // 颜色定义 - 改为黑白灰度
-    let color-dir-bg = rgb("#F0F0F0")           // 浅灰
-    let color-dir-start-bg = rgb("#E0E0E0")     // 中浅灰
-    let color-fat-highlight = rgb("#D0D0D0")    // 中灰
-    let color-fat-default = rgb("#FFFFFF")      // 白色
-    let color-block-data = rgb("#E8E8E8")       // 浅灰
-    let color-block-eof = rgb("#C0C0C0")        // 深灰
-    let color-arrow-dir = rgb("#000000")        // 黑色
-    let color-arrow-fat = rgb("#000000")        // 黑色
-    let color-legend-bg = rgb("#F8F8F8")        // 极浅灰
+        // 颜色定义 - 改为黑白灰度
+        let color-dir-bg = rgb("#F0F0F0") // 浅灰
+        let color-dir-start-bg = rgb("#E0E0E0") // 中浅灰
+        let color-fat-highlight = rgb("#D0D0D0") // 中灰
+        let color-fat-default = rgb("#FFFFFF") // 白色
+        let color-block-data = rgb("#E8E8E8") // 浅灰
+        let color-block-eof = rgb("#C0C0C0") // 深灰
+        let color-arrow-dir = rgb("#000000") // 黑色
+        let color-arrow-fat = rgb("#000000") // 黑色
+        let color-legend-bg = rgb("#F8F8F8") // 极浅灰
 
-    // 描边与字体
-    let stroke-default = 1pt + black
-    let stroke-thin = 0.5pt + black
-    let stroke-arrow = 1.5pt + black
-    let stroke-thick = 2pt + black
-    let font-size-small = 8pt
-    let font-size-fat = 9pt
-    let font-size-normal = 10pt
-    let font-size-title = 11pt
-    let font-weight-bold = "bold"
+        // 描边与字体
+        let stroke-default = 1pt + black
+        let stroke-thin = 0.5pt + black
+        let stroke-arrow = 1.5pt + black
+        let stroke-thick = 2pt + black
+        let font-size-small = 8pt
+        let font-size-fat = 9pt
+        let font-size-normal = 10pt
+        let font-size-title = 11pt
+        let font-weight-bold = "bold"
 
-    // 布局参数 - 重新调整整体布局
-    let dir-entry-y-top = 6.5
-    let dir-entry-height = 0.8
-    let dir-entry-main-width = 2.8
-    let dir-entry-start-width = 1.8
-    let dir-entry-total-width = dir-entry-main-width + dir-entry-start-width
-    let dir-entry-y-center = dir-entry-y-top + dir-entry-height / 2
-    let dir-entry-y-bottom = dir-entry-y-top + dir-entry-height
+        // 布局参数 - 重新调整整体布局
+        let dir-entry-y-top = 6.5
+        let dir-entry-height = 0.8
+        let dir-entry-main-width = 2.8
+        let dir-entry-start-width = 1.8
+        let dir-entry-total-width = dir-entry-main-width + dir-entry-start-width
+        let dir-entry-y-center = dir-entry-y-top + dir-entry-height / 2
+        let dir-entry-y-bottom = dir-entry-y-top + dir-entry-height
 
-    let fat-title-pos-y = 5.5
-    let fat-start-y-center = 4.8
-    let fat-cell-height = 0.3  // 增加单元格高度
-    let fat-y-step = 0.35      // 增加行间距
-    let fat-idx-width = 1.2    // 增加索引列宽度
-    let fat-content-width = 1.8 // 增加内容列宽度
-    let fat-table-x-start = 0.5
-    let fat-table-x-end = fat-table-x-start + fat-idx-width + fat-content-width
+        let fat-title-pos-y = 5.5
+        let fat-start-y-center = 4.8
+        let fat-cell-height = 0.3 // 增加单元格高度
+        let fat-y-step = 0.35 // 增加行间距
+        let fat-idx-width = 1.2 // 增加索引列宽度
+        let fat-content-width = 1.8 // 增加内容列宽度
+        let fat-table-x-start = 0.5
+        let fat-table-x-end = fat-table-x-start + fat-idx-width + fat-content-width
 
-    let block-title-pos-y = 5.5
-    let block-y-center = 3.2
-    let block-width = 1.1
-    let block-height = 0.5
-    let block-start-x = 6.5    // 向右移动磁盘块，为更大的FAT表让位
-    let block-h-gap = 0.7
+        let block-title-pos-y = 5.5
+        let block-y-center = 3.2
+        let block-width = 1.1
+        let block-height = 0.5
+        let block-start-x = 6.5 // 向右移动磁盘块，为更大的FAT表让位
+        let block-h-gap = 0.7
 
-    let legend-y = -0.5        // 向下移动图例
-    let legend-height = 0.8
+        let legend-y = -0.5 // 向下移动图例
+        let legend-height = 0.8
 
-    // 存储关键坐标点
-    let fat-entry-link-points = ()
-    let block-link-points-top = ()
-    let block-link-points-bottom = ()
-    let block-centers = ()
+        // 存储关键坐标点
+        let fat-entry-link-points = ()
+        let block-link-points-top = ()
+        let block-link-points-bottom = ()
+        let block-centers = ()
 
-    // --- 2. 辅助函数 ---
-    let draw-labelled-rect(
-      p1,
-      p2,
-      fill-color,
-      text-content,
-      text-size: font-size-fat,
-      text-weight: "regular",
-      rect-stroke: stroke-default,
-    ) = {
-      rect(p1, p2, stroke: rect-stroke, fill: fill-color)
-      let (x1, y1) = p1
-      let (x2, y2) = p2
-      content(((x1 + x2) / 2, (y1 + y2) / 2), text(size: text-size, weight: text-weight, fill: black)[#text-content])
-    }
-
-    // --- 3. 画目录条目 ---
-    let dir-main-p1 = (fat-table-x-start, dir-entry-y-top)
-    let dir-main-p2 = (fat-table-x-start + dir-entry-main-width, dir-entry-y-bottom)
-    draw-labelled-rect(
-      dir-main-p1,
-      dir-main-p2,
-      color-dir-bg,
-      [文件A目录项],
-      text-size: font-size-normal,
-      text-weight: font-weight-bold,
-    )
-
-    let dir-start-p1 = (fat-table-x-start + dir-entry-main-width, dir-entry-y-top)
-    let dir-start-p2 = (fat-table-x-start + dir-entry-total-width, dir-entry-y-bottom)
-    draw-labelled-rect(
-      dir-start-p1,
-      dir-start-p2,
-      color-dir-start-bg,
-      [起始块: 3],
-      text-size: font-size-normal,
-      text-weight: font-weight-bold,
-    )
-
-    let dir-start-block-link-from-x = (dir-start-p1.at(0) + dir-start-p2.at(0)) / 2
-    let dir-start-block-link-from-y = dir-start-p1.at(1)
-
-    // --- 4. 画FAT表 ---
-    content(
-      (fat-table-x-start + (fat-idx-width + fat-content-width) / 2, fat-title-pos-y),
-      text(weight: font-weight-bold, size: font-size-title)[FAT 表],
-    )
-
-    // FAT表头 - 使用更大的尺寸
-    draw-labelled-rect(
-      (fat-table-x-start, fat-start-y-center + fat-cell-height),
-      (fat-table-x-start + fat-idx-width, fat-start-y-center + fat-cell-height * 2),
-      rgb("#CCCCCC"),  // 深灰替代原来的颜色
-      text(size:7pt)[物理块号],
-      text-weight: font-weight-bold,
-      text-size: font-size-fat,
-    )
-    draw-labelled-rect(
-      (fat-table-x-start + fat-idx-width, fat-start-y-center + fat-cell-height),
-      (fat-table-x-end, fat-start-y-center + fat-cell-height * 2),
-      rgb("#CCCCCC"),  // 深灰替代原来的颜色
-      [内容],
-      text-weight: font-weight-bold,
-      text-size: font-size-fat,
-    )
-
-    let fat_entries = (
-      (0, "..."),
-      (1, "..."),
-      (2, "其他"),
-      (3, "6"),
-      (4, "其他"),
-      (5, "EOF"),
-      (6, "8"),
-      (7, "其他"),
-      (8, "10"),
-      (9, "其他"),
-      (10, "5"),
-      (11, "..."),
-    )
-
-    for (i, (idx, content_text)) in fat_entries.enumerate() {
-      let current-y-center = fat-start-y-center - i * fat-y-step
-      let cell-top-y = current-y-center - fat-cell-height / 2
-      let cell-bottom-y = current-y-center + fat-cell-height / 2
-
-      let color = if content_text in ("6", "8", "10", "5", "EOF") {
-        color-fat-highlight
-      } else {
-        color-fat-default
-      }
-
-      let text-weight = if content_text in ("6", "8", "10", "5", "EOF") {
-        font-weight-bold
-      } else {
-        "regular"
-      }
-
-      // FAT索引单元格
-      draw-labelled-rect(
-        (fat-table-x-start, cell-top-y),
-        (fat-table-x-start + fat-idx-width, cell-bottom-y),
-        color,
-        [#idx],
-        rect-stroke: stroke-thin,
-        text-size: font-size-fat,  // 使用更大的字体
-        text-weight: text-weight,
-      )
-
-      // FAT内容单元格
-      draw-labelled-rect(
-        (fat-table-x-start + fat-idx-width, cell-top-y),
-        (fat-table-x-end, cell-bottom-y),
-        color,
-        [#content_text],
-        rect-stroke: stroke-thin,
-        text-size: font-size-fat,  // 使用更大的字体
-        text-weight: text-weight,
-      )
-
-      // 存储FAT表项右侧连接点
-      fat-entry-link-points.push((fat-table-x-end, current-y-center))
-    }
-
-    // --- 5. 画磁盘块链接 ---
-    content(
-      (block-start-x + 4, block-title-pos-y -1),
-      text(weight: font-weight-bold, size: font-size-title)[磁盘块链接关系],
-    )
-
-    let disk_blocks_data = (3, 6, 8, 10, 5)
-    for (i, block_num) in disk_blocks_data.enumerate() {
-      let current-block-x-start = block-start-x + i * (block-width + block-h-gap)
-      let current-block-x-center = current-block-x-start + block-width / 2
-      let block-top-y = block-y-center - block-height / 2
-      let block-bottom-y = block-y-center + block-height / 2
-
-      // 存储连接点
-      block-link-points-top.push((current-block-x-center, block-top-y))
-      block-link-points-bottom.push((current-block-x-center, block-bottom-y))
-      block-centers.push((current-block-x-center, block-y-center))
-
-      let block-p1 = (current-block-x-start, block-top-y)
-      let block-p2 = (current-block-x-start + block-width, block-bottom-y)
-
-      if i == disk_blocks_data.len() - 1 {
-        // 最后一个块
-        draw-labelled-rect(
-          block-p1,
-          block-p2,
-          color-block-eof,
-          [块#block_num],
-          text-weight: font-weight-bold,
-          text-size: font-size-normal,
-          rect-stroke: stroke-thick,
-        )
-        content(
-          (current-block-x-center + 1, block-bottom-y - 0.25),
-          text(size: font-size-small, fill: black, weight: font-weight-bold)[EOF],  // 改为黑色
-        )
-      } else {
-        // 数据块
-        draw-labelled-rect(
-          block-p1,
-          block-p2,
-          color-block-data,
-          [块#block_num],
-          text-weight: font-weight-bold,
-          text-size: font-size-normal,
-          rect-stroke: stroke-thick,
-        )
-
-        // 块间箭头 - 使用黑色实线
-        line(
-          (current-block-x-start + block-width, block-y-center),
-          (current-block-x-start + block-width + block-h-gap, block-y-center),
-          mark: (end: ">"),
-          stroke: 2pt + black,  // 直接定义粗黑线
-        )
-      }
-    }
-
-    // --- 6. 画箭头 ---
-    // 从目录项到第一个块的箭头
-    let first_block_position = 0 // 块3在链中的位置
-    line(
-      (dir-start-block-link-from-x, dir-start-block-link-from-y),
-      block-link-points-top.at(first_block_position),
-      mark: (end: ">"),
-      stroke: 2pt + black,  // 直接定义粗黑线
-    )
-
-    // 添加箭头标签
-    content(
-      (
-        dir-start-block-link-from-x - 0.5,
-        (dir-start-block-link-from-y + block-link-points-top.at(first_block_position).at(1)) / 2,
-      ),
-      text(size: font-size-small, fill: black, weight: font-weight-bold)[指向],  // 改为黑色
-    )
-
-    // FAT表项之间的关系箭头
-    let fat_to_block_links = (
-      (fat_idx: 3, block_val: 3),
-      (fat_idx: 6, block_val: 6),
-      (fat_idx: 8, block_val: 8),
-      (fat_idx: 10, block_val: 10),
-    )
-
-    for link in fat_to_block_links {
-      let block_chain_idx = none
-      for (i, val) in disk_blocks_data.enumerate() {
-        if val == link.block_val {
-          block_chain_idx = i
-          break
+        // --- 2. 辅助函数 ---
+        let draw-labelled-rect(
+          p1,
+          p2,
+          fill-color,
+          text-content,
+          text-size: font-size-fat,
+          text-weight: "regular",
+          rect-stroke: stroke-default,
+        ) = {
+          rect(p1, p2, stroke: rect-stroke, fill: fill-color)
+          let (x1, y1) = p1
+          let (x2, y2) = p2
+          content(
+            ((x1 + x2) / 2, (y1 + y2) / 2),
+            text(size: text-size, weight: text-weight, fill: black)[#text-content],
+          )
         }
-      }
 
-      if block_chain_idx != none {
-        line(
-          fat-entry-link-points.at(link.fat_idx),
-          (block-link-points-bottom.at(block_chain_idx))+(1,),
-          mark: (end: ">"),
-          stroke: 1pt + black,  // 直接定义黑线
-          dash: "dashed",
+        // --- 3. 画目录条目 ---
+        let dir-main-p1 = (fat-table-x-start, dir-entry-y-top)
+        let dir-main-p2 = (fat-table-x-start + dir-entry-main-width, dir-entry-y-bottom)
+        draw-labelled-rect(
+          dir-main-p1,
+          dir-main-p2,
+          color-dir-bg,
+          [文件A目录项],
+          text-size: font-size-normal,
+          text-weight: font-weight-bold,
         )
-      }
-    }
 
-    // --- 7. 图例 ---
-    // 绘制图例背景
-    rect(
-      (fat-table-x-start+2, legend-y + 0.8),
-      (13, legend-y + 1.6),  // 向下移动图例
-      stroke: stroke-thin,
-      fill: color-legend-bg,
-    )
+        let dir-start-p1 = (fat-table-x-start + dir-entry-main-width, dir-entry-y-top)
+        let dir-start-p2 = (fat-table-x-start + dir-entry-total-width, dir-entry-y-bottom)
+        draw-labelled-rect(
+          dir-start-p1,
+          dir-start-p2,
+          color-dir-start-bg,
+          [起始块: 3],
+          text-size: font-size-normal,
+          text-weight: font-weight-bold,
+        )
 
-    content(
-      (7.25, legend-y + 1.35),
-      text(weight: font-weight-bold, size: font-size-normal, fill: black)[图例说明],  // 改为黑色
-    )
+        let dir-start-block-link-from-x = (dir-start-p1.at(0) + dir-start-p2.at(0)) / 2
+        let dir-start-block-link-from-y = dir-start-p1.at(1)
 
-    let legend-items = (
-      ([实线: 目录指向], 3.5),        // 移除颜色描述
-      ([虚线: FAT链接], 6.5),        // 移除颜色描述
-      ([浅灰框: 数据块], 9.5),       // 改为灰度描述
-      ([深灰框: 结束块], 12),        // 改为灰度描述
-    )
+        // --- 4. 画FAT表 ---
+        content(
+          (fat-table-x-start + (fat-idx-width + fat-content-width) / 2, fat-title-pos-y),
+          text(weight: font-weight-bold, size: font-size-title)[FAT 表],
+        )
 
-    for (item, x_pos) in legend-items {
-      content((x_pos, legend-y + 0.95), text(size: font-size-small, fill: black)[#item])  // 改为黑色
-    }
-  })
-]
+        // FAT表头 - 使用更大的尺寸
+        draw-labelled-rect(
+          (fat-table-x-start, fat-start-y-center + fat-cell-height),
+          (fat-table-x-start + fat-idx-width, fat-start-y-center + fat-cell-height * 2),
+          rgb("#CCCCCC"), // 深灰替代原来的颜色
+          text(size: 7pt)[物理块号],
+          text-weight: font-weight-bold,
+          text-size: font-size-fat,
+        )
+        draw-labelled-rect(
+          (fat-table-x-start + fat-idx-width, fat-start-y-center + fat-cell-height),
+          (fat-table-x-end, fat-start-y-center + fat-cell-height * 2),
+          rgb("#CCCCCC"), // 深灰替代原来的颜色
+          [内容],
+          text-weight: font-weight-bold,
+          text-size: font-size-fat,
+        )
+
+        let fat_entries = (
+          (0, "..."),
+          (1, "..."),
+          (2, "其他"),
+          (3, "6"),
+          (4, "其他"),
+          (5, "EOF"),
+          (6, "8"),
+          (7, "其他"),
+          (8, "10"),
+          (9, "其他"),
+          (10, "5"),
+          (11, "..."),
+        )
+
+        for (i, (idx, content_text)) in fat_entries.enumerate() {
+          let current-y-center = fat-start-y-center - i * fat-y-step
+          let cell-top-y = current-y-center - fat-cell-height / 2
+          let cell-bottom-y = current-y-center + fat-cell-height / 2
+
+          let color = if content_text in ("6", "8", "10", "5", "EOF") {
+            color-fat-highlight
+          } else {
+            color-fat-default
+          }
+
+          let text-weight = if content_text in ("6", "8", "10", "5", "EOF") {
+            font-weight-bold
+          } else {
+            "regular"
+          }
+
+          // FAT索引单元格
+          draw-labelled-rect(
+            (fat-table-x-start, cell-top-y),
+            (fat-table-x-start + fat-idx-width, cell-bottom-y),
+            color,
+            [#idx],
+            rect-stroke: stroke-thin,
+            text-size: font-size-fat, // 使用更大的字体
+            text-weight: text-weight,
+          )
+
+          // FAT内容单元格
+          draw-labelled-rect(
+            (fat-table-x-start + fat-idx-width, cell-top-y),
+            (fat-table-x-end, cell-bottom-y),
+            color,
+            [#content_text],
+            rect-stroke: stroke-thin,
+            text-size: font-size-fat, // 使用更大的字体
+            text-weight: text-weight,
+          )
+
+          // 存储FAT表项右侧连接点
+          fat-entry-link-points.push((fat-table-x-end, current-y-center))
+        }
+
+        // --- 5. 画磁盘块链接 ---
+        content(
+          (block-start-x + 4, block-title-pos-y - 1),
+          text(weight: font-weight-bold, size: font-size-title)[磁盘块链接关系],
+        )
+
+        let disk_blocks_data = (3, 6, 8, 10, 5)
+        for (i, block_num) in disk_blocks_data.enumerate() {
+          let current-block-x-start = block-start-x + i * (block-width + block-h-gap)
+          let current-block-x-center = current-block-x-start + block-width / 2
+          let block-top-y = block-y-center - block-height / 2
+          let block-bottom-y = block-y-center + block-height / 2
+
+          // 存储连接点
+          block-link-points-top.push((current-block-x-center, block-top-y))
+          block-link-points-bottom.push((current-block-x-center, block-bottom-y))
+          block-centers.push((current-block-x-center, block-y-center))
+
+          let block-p1 = (current-block-x-start, block-top-y)
+          let block-p2 = (current-block-x-start + block-width, block-bottom-y)
+
+          if i == disk_blocks_data.len() - 1 {
+            // 最后一个块
+            draw-labelled-rect(
+              block-p1,
+              block-p2,
+              color-block-eof,
+              [块#block_num],
+              text-weight: font-weight-bold,
+              text-size: font-size-normal,
+              rect-stroke: stroke-thick,
+            )
+            content(
+              (current-block-x-center + 1, block-bottom-y - 0.25),
+              text(size: font-size-small, fill: black, weight: font-weight-bold)[EOF], // 改为黑色
+            )
+          } else {
+            // 数据块
+            draw-labelled-rect(
+              block-p1,
+              block-p2,
+              color-block-data,
+              [块#block_num],
+              text-weight: font-weight-bold,
+              text-size: font-size-normal,
+              rect-stroke: stroke-thick,
+            )
+
+            // 块间箭头 - 使用黑色实线
+            line(
+              (current-block-x-start + block-width, block-y-center),
+              (current-block-x-start + block-width + block-h-gap, block-y-center),
+              mark: (end: ">"),
+              stroke: 2pt + black, // 直接定义粗黑线
+            )
+          }
+        }
+
+        // --- 6. 画箭头 ---
+        // 从目录项到第一个块的箭头
+        let first_block_position = 0 // 块3在链中的位置
+        line(
+          (dir-start-block-link-from-x, dir-start-block-link-from-y),
+          block-link-points-top.at(first_block_position),
+          mark: (end: ">"),
+          stroke: 2pt + black, // 直接定义粗黑线
+        )
+
+        // 添加箭头标签
+        content(
+          (
+            dir-start-block-link-from-x - 0.5,
+            (dir-start-block-link-from-y + block-link-points-top.at(first_block_position).at(1)) / 2,
+          ),
+          text(size: font-size-small, fill: black, weight: font-weight-bold)[指向], // 改为黑色
+        )
+
+        // FAT表项之间的关系箭头
+        let fat_to_block_links = (
+          (fat_idx: 3, block_val: 3),
+          (fat_idx: 6, block_val: 6),
+          (fat_idx: 8, block_val: 8),
+          (fat_idx: 10, block_val: 10),
+        )
+
+        for link in fat_to_block_links {
+          let block_chain_idx = none
+          for (i, val) in disk_blocks_data.enumerate() {
+            if val == link.block_val {
+              block_chain_idx = i
+              break
+            }
+          }
+
+          if block_chain_idx != none {
+            line(
+              fat-entry-link-points.at(link.fat_idx),
+              (block-link-points-bottom.at(block_chain_idx)) + (1,),
+              mark: (end: ">"),
+              stroke: 1pt + black, // 直接定义黑线
+              dash: "dashed",
+            )
+          }
+        }
+
+        // --- 7. 图例 ---
+        // 绘制图例背景
+        rect(
+          (fat-table-x-start + 2, legend-y + 0.8),
+          (13, legend-y + 1.6), // 向下移动图例
+          stroke: stroke-thin,
+          fill: color-legend-bg,
+        )
+
+        content(
+          (7.25, legend-y + 1.35),
+          text(weight: font-weight-bold, size: font-size-normal, fill: black)[图例说明], // 改为黑色
+        )
+
+        let legend-items = (
+          ([实线: 目录指向], 3.5), // 移除颜色描述
+          ([虚线: FAT链接], 6.5), // 移除颜色描述
+          ([浅灰框: 数据块], 9.5), // 改为灰度描述
+          ([深灰框: 结束块], 12), // 改为灰度描述
+        )
+
+        for (item, x_pos) in legend-items {
+          content((x_pos, legend-y + 0.95), text(size: font-size-small, fill: black)[#item]) // 改为黑色
+        }
+      })
+    ]
     *解析：*
     1. 目录条目中记录文件A的起始块号为3
     2. FAT表中索引3的条目存储下一块号6
-    3. FAT表中索引6的条目存储下一块号8  
+    3. FAT表中索引6的条目存储下一块号8
     4. FAT表中索引8的条目存储下一块号10
     5. FAT表中索引10的条目存储下一块号5
     6. FAT表中索引5的条目存储文件结束标志(EOF)
@@ -1207,7 +1254,7 @@
   #v(-5pt)
   #text(size: 9pt, font: "SF Mono")[#code]
 ]
-#let code_answer_block(num, code, explanation: "", score: "",isbreakable:true) = {
+#let code_answer_block(num, code, explanation: "", score: "", isbreakable: true) = {
   block(
     width: 100%,
     fill: rgb("#F8F9FA"),
@@ -1231,142 +1278,141 @@
 #code_answer_block(
   "1",
   [
-       #figure(caption: [题目信息])[
-        #set text(size:6.5pt)
-        #canvas({
-  import draw: *
-  scale(0.55)
-  // 绘制进程P
-  rect((0, 4), (2, 6), stroke: black, fill: none)
-  content((1, 5), [进程P])
-  content((1, 4.5), [读入信息])
-  
-  // 绘制进程Q  
-  rect((5, 4), (7, 6), stroke: black, fill: none)
-  content((6, 5.2), [进程Q])
-  content((6, 4.5), [加工信息])
-  
-  // 绘制进程R
-  rect((10, 4), (12, 6), stroke: black, fill: none)
-  content((11, 5), [进程R])
-  content((11, 4.5), [打印输出])
-  
-  // 绘制缓冲池1 (P和Q共享)
-  rect((2.5, 1.5), (4.5, 3.5), stroke: black, fill: none)
-  content((3.5, 2.5), [缓冲池1])
-  content((3.5, 2), [m个缓冲区])
-  
-  // 绘制缓冲池2 (Q和R共享)
-  rect((7.5, 1.5), (9.5, 3.5), stroke: black, fill: none)
-  content((8.5, 2.5), [缓冲池2])
-  content((8.5, 2), [n个缓冲区])
-  
-  // 绘制输入设备
-  rect((-2, 4.5), (0, 5.5), stroke: black, fill: none)
-  content((-1, 5), [输入设备])
-  
-  // 绘制输出设备
-  rect((12, 4.5), (14, 5.5), stroke: black, fill: none)  
-  content((13, 5), [输出设备])
-  
-  // 绘制箭头和连接线
-  // 输入设备到P
-  line((-2, 5), (0, 5), stroke: black, mark: (end: ">"))
-  
-  // P到缓冲池1
-  line((1, 4), (3.5, 3.5), stroke: black, mark: (end: ">"))
-  
-  // 缓冲池1到Q
-  line((3.5, 3.5), (6, 4), stroke: black, mark: (end: ">"))
-  
-  // Q到缓冲池2
-  line((6, 4), (8.5, 3.5), stroke: black, mark: (end: ">"))
-  
-  // 缓冲池2到R
-  line((8.5, 3.5), (11, 4), stroke: black, mark: (end: ">"))
-  
-  // R到输出设备
-  line((12, 5), (14, 5), stroke: black, mark: (end: ">"))
-  
-  // 添加标签说明
-  content((3.5, 0.5), [P和Q共享])
-  content((8.5, 0.5), [Q和R共享])
-  
-  // 添加PV操作说明
-  content((1, 7), [P操作:])
-  content((1, 6.5), [写入缓冲池1])
-  
-  content((6, 7), [Q操作:])
-  content((6, 6.6), [从缓冲池1读取])
-  content((6, 6.2), [写入缓冲池2])
-  
-  content((11, 7), [R操作:])
-  content((11, 6.5), [从缓冲池2读取])
-})]
-  
+    #figure(caption: [题目信息])[
+      #set text(size: 6.5pt)
+      #canvas({
+        import draw: *
+        scale(0.55)
+        // 绘制进程P
+        rect((0, 4), (2, 6), stroke: black, fill: none)
+        content((1, 5), [进程P])
+        content((1, 4.5), [读入信息])
+
+        // 绘制进程Q
+        rect((5, 4), (7, 6), stroke: black, fill: none)
+        content((6, 5.2), [进程Q])
+        content((6, 4.5), [加工信息])
+
+        // 绘制进程R
+        rect((10, 4), (12, 6), stroke: black, fill: none)
+        content((11, 5), [进程R])
+        content((11, 4.5), [打印输出])
+
+        // 绘制缓冲池1 (P和Q共享)
+        rect((2.5, 1.5), (4.5, 3.5), stroke: black, fill: none)
+        content((3.5, 2.5), [缓冲池1])
+        content((3.5, 2), [m个缓冲区])
+
+        // 绘制缓冲池2 (Q和R共享)
+        rect((7.5, 1.5), (9.5, 3.5), stroke: black, fill: none)
+        content((8.5, 2.5), [缓冲池2])
+        content((8.5, 2), [n个缓冲区])
+
+        // 绘制输入设备
+        rect((-2, 4.5), (0, 5.5), stroke: black, fill: none)
+        content((-1, 5), [输入设备])
+
+        // 绘制输出设备
+        rect((12, 4.5), (14, 5.5), stroke: black, fill: none)
+        content((13, 5), [输出设备])
+
+        // 绘制箭头和连接线
+        // 输入设备到P
+        line((-2, 5), (0, 5), stroke: black, mark: (end: ">"))
+
+        // P到缓冲池1
+        line((1, 4), (3.5, 3.5), stroke: black, mark: (end: ">"))
+
+        // 缓冲池1到Q
+        line((3.5, 3.5), (6, 4), stroke: black, mark: (end: ">"))
+
+        // Q到缓冲池2
+        line((6, 4), (8.5, 3.5), stroke: black, mark: (end: ">"))
+
+        // 缓冲池2到R
+        line((8.5, 3.5), (11, 4), stroke: black, mark: (end: ">"))
+
+        // R到输出设备
+        line((12, 5), (14, 5), stroke: black, mark: (end: ">"))
+
+        // 添加标签说明
+        content((3.5, 0.5), [P和Q共享])
+        content((8.5, 0.5), [Q和R共享])
+
+        // 添加PV操作说明
+        content((1, 7), [P操作:])
+        content((1, 6.5), [写入缓冲池1])
+
+        content((6, 7), [Q操作:])
+        content((6, 6.6), [从缓冲池1读取])
+        content((6, 6.2), [写入缓冲池2])
+
+        content((11, 7), [R操作:])
+        content((11, 6.5), [从缓冲池2读取])
+      })]
+
     ```c
-  // 定义信号量和缓冲区 (伪代码风格)
-  semaphore mutex1 = 1;      // 缓冲池1互斥锁
-  semaphore empty1 = m;      // 缓冲池1空缓冲区数
-  semaphore full1 = 0;       // 缓冲池1满缓冲区数
-  buffer pool1[m];           // P和Q共享的缓冲池1
+    // 定义信号量和缓冲区 (伪代码风格)
+    semaphore mutex1 = 1;      // 缓冲池1互斥锁
+    semaphore empty1 = m;      // 缓冲池1空缓冲区数
+    semaphore full1 = 0;       // 缓冲池1满缓冲区数
+    buffer pool1[m];           // P和Q共享的缓冲池1
 
-  semaphore mutex2 = 1;      // 缓冲池2互斥锁
-  semaphore empty2 = n;      // 缓冲池2空缓冲区数
-  semaphore full2 = 0;       // 缓冲池2满缓冲区数
-  buffer pool2[n];           // Q和R共享的缓冲池2
+    semaphore mutex2 = 1;      // 缓冲池2互斥锁
+    semaphore empty2 = n;      // 缓冲池2空缓冲区数
+    semaphore full2 = 0;       // 缓冲池2满缓冲区数
+    buffer pool2[n];           // Q和R共享的缓冲池2
 
-  // 假设 item_type 为传输的信息单元类型
-  item_type data_item;
+    // 假设 item_type 为传输的信息单元类型
+    item_type data_item;
 
-  // 进程P: 从输入设备读信息，放入pool1
-  process P {
-      while (true) {
-          read_from_input_device(&data_item); // 从输入设备读取信息
+    // 进程P: 从输入设备读信息，放入pool1
+    process P {
+        while (true) {
+            read_from_input_device(&data_item); // 从输入设备读取信息
 
-          P(empty1);    // 等待pool1有空闲缓冲区
-          P(mutex1);    // 进入临界区
-          add_item_to_buffer(pool1, data_item); // 信息放入pool1
-          V(mutex1);    // 退出临界区
-          V(full1);     // 通知pool1有数据了
-      }
-  }
+            P(empty1);    // 等待pool1有空闲缓冲区
+            P(mutex1);    // 进入临界区
+            add_item_to_buffer(pool1, data_item); // 信息放入pool1
+            V(mutex1);    // 退出临界区
+            V(full1);     // 通知pool1有数据了
+        }
+    }
 
-  // 进程Q: 从pool1取信息，加工后放入pool2
-  process Q {
-      item_type item_from_p, item_for_r;
-      while (true) {
-          P(full1);     // 等待pool1有数据
-          P(mutex1);    // 进入临界区
-          remove_item_from_buffer(pool1, &item_from_p); // 从pool1取出信息
-          V(mutex1);    // 退出临界区
-          V(empty1);    // 通知pool1有空位了
+    // 进程Q: 从pool1取信息，加工后放入pool2
+    process Q {
+        item_type item_from_p, item_for_r;
+        while (true) {
+            P(full1);     // 等待pool1有数据
+            P(mutex1);    // 进入临界区
+            remove_item_from_buffer(pool1, &item_from_p); // 从pool1取出信息
+            V(mutex1);    // 退出临界区
+            V(empty1);    // 通知pool1有空位了
 
-          process_data(item_from_p, &item_for_r); // 加工信息
+            process_data(item_from_p, &item_for_r); // 加工信息
 
-          P(empty2);    // 等待pool2有空闲缓冲区
-          P(mutex2);    // 进入临界区
-          add_item_to_buffer(pool2, item_for_r); // 加工后信息放入pool2
-          V(mutex2);    // 退出临界区
-          V(full2);     // 通知pool2有数据了
-      }
-  }
+            P(empty2);    // 等待pool2有空闲缓冲区
+            P(mutex2);    // 进入临界区
+            add_item_to_buffer(pool2, item_for_r); // 加工后信息放入pool2
+            V(mutex2);    // 退出临界区
+            V(full2);     // 通知pool2有数据了
+        }
+    }
 
-  // 进程R: 从pool2取信息并打印输出
-  process R {
-      item_type item_to_print;
-      while (true) {
-          P(full2);     // 等待pool2有数据
-          P(mutex2);    // 进入临界区
-          remove_item_from_buffer(pool2, &item_to_print); // 从pool2取出信息
-          V(mutex2);    // 退出临界区
-          V(empty2);    // 通知pool2有空位了
+    // 进程R: 从pool2取信息并打印输出
+    process R {
+        item_type item_to_print;
+        while (true) {
+            P(full2);     // 等待pool2有数据
+            P(mutex2);    // 进入临界区
+            remove_item_from_buffer(pool2, &item_to_print); // 从pool2取出信息
+            V(mutex2);    // 退出临界区
+            V(empty2);    // 通知pool2有空位了
 
-          print_output(item_to_print); // 打印输出信息
-      }
-  }
-  ```],
-  explanation: [
-],
+            print_output(item_to_print); // 打印输出信息
+        }
+    }
+    ```],
+  explanation: [ ],
   score: "共10分",
 )

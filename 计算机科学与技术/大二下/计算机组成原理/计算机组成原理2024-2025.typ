@@ -170,6 +170,7 @@
     length: 1cm,
     {
       import draw: *
+      scale(0.9)
 
       // Draw BUS lines
       line((-9, 6), (7, 6), stroke: (thickness: 3pt, paint: gray))
@@ -300,7 +301,7 @@
       line((-3.5, 6), (-3.5, 3.7), (-2, 3.7), (-2, 4), mark: (start: ">"))
     },
   )]<计组2425>
-  
+   
 假设处理机格式为:
 
 #figure(
